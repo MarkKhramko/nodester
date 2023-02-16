@@ -1,0 +1,63 @@
+{
+  "name": "nodester",
+  "version": "0.0.1",
+  "description": "A boilerplate framework for Node.js",
+  "exports": {
+    ".": "./lib/application/index.js"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "source": [
+    "lib"
+  ],
+  "scripts": {
+    "examples:rest": "node ./examples/rest/index.js",
+    "test": "jest"
+  },
+  "author": "Mark Khramko <markkhramko@gmail.com>",
+  "license": "MIT",
+  "repository": "MarkKhramko/nodester",
+  "private": false,
+  "bugs": {
+    "url": "https://github.com/MarkKhramko/nodester/issues"
+  },
+  "homepage": "https://github.com/MarkKhramko/nodester#readme",
+  "keywords": [
+    "nodester",
+    "framework",
+    "web",
+    "http",
+    "rest",
+    "restful",
+    "router",
+    "app",
+    "api"
+  ],
+  "dependencies": {
+    "accepts": "^1.3.8",
+    "content-disposition": "^0.5.4",
+    "content-type": "^1.0.5",
+    "cookie": "^0.5.0",
+    "cookie-signature": "^1.2.0",
+    "debug": "^4.3.4",
+    "finalhandler": "^1.2.0",
+    "formidable": "^1.2.6",
+    "fresh": "^0.5.2",
+    "http-errors": "^2.0.0",
+    "inflection": "^2.0.1",
+    "proxy-addr": "^2.0.7",
+    "qs": "^6.11.0",
+    "range-parser": "^1.2.1",
+    "send": "^0.18.0",
+    "sequelize": "^6.6.5",
+    "type-is": "^1.6.18",
+    "vary": "^1.1.2"
+  },
+  "engines": {
+    "node": ">= 12.17.0"
+  },
+  "devDependencies": {
+    "jest": "^29.4.2"
+  }
+}
