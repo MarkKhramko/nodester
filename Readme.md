@@ -21,7 +21,7 @@ const app = new nodester();
 app.set.database(db);
 
 app.listen(8080, function() {
-	console.log('listening on port', app.port);
+  console.log('listening on port', app.port);
 });
 ```
 
@@ -45,19 +45,19 @@ app.add.marker('API', (req) => req.hostname === 'api.awesomeapp.com');
 And then use them:
 
 ```js
-app.only('ADMIN').route('get /payments', <handler>);
-app.only('API').route('get /payments', <handler>);
+app.only('ADMIN').route('get /payments', <handler/>);
+app.only('API').route('get /payments', <handler/>);
 // Or:
-app.only('ADMIN').use(<handler>);
-app.only('API').use(<handler>);
+app.only('ADMIN').use(<handler/>);
+app.only('API').use(<handler/>);
 ```
 
 The same can be done for any parameter in request/response:
 
 ```js
 app.add.marker('admin_role', (req) => req.role === 'admin');
-app.only('admin_role').route('get /secrets', <handler>);
-app.only('admin_role').use(<handler>);
+app.only('admin_role').route('get /secrets', <handler/>);
+app.only('admin_role').use(<handler/>);
 ```
 
 ## Router
@@ -67,7 +67,7 @@ Router is a built-in middleware.
 ```js
 const Router = require('nodester/router');
 
-const controllersPath = <path_to_controllers_directory>;
+const controllersPath = <path_to_controllers_directory/>;
 const router = new Router({ controllersPath });
 
 router.add.route('get /books', function(req, res) { ... } );
@@ -80,7 +80,7 @@ router.add.route('get /books/:id', { controlledBy: 'BooksController.getOne' } );
 
 ```js
 const nodester = require('nodester');
-const router = require(<path_to_router_definition>);
+const router = require(<path_to_router_definition/>);
 
 const app = new nodester();
 app.use(router());
@@ -99,7 +99,7 @@ const nodester = require('nodester');
 
 const app = new nodester();
 app.extend('static', serveStatic);
-app.static(<path_to_static_directory>);
+app.static(<path_to_static_directory/>);
 ```
 
 Short:
@@ -109,7 +109,7 @@ const serveStatic = require('serve-static');
 const nodester = require('nodester');
 
 const app = new nodester();
-app.extend('static', serveStatic)(<path_to_static_directory>);
+app.extend('static', serveStatic)(<path_to_static_directory/>);
 ```
 
 Of course you might just do this:
@@ -132,11 +132,11 @@ If you really want to override properties or use `nodester` as a boilerplate, yo
 const NodesterApp = require('nodester');
 
 class MyApp extends NodesterApp {
-	constructor(opts) {
-		super(opts)
-	}
+  constructor(opts) {
+    super(opts)
+  }
 
-	// Override everything you want here...
+  // Override everything you want here...
 }
 
 // Don't forget to expose.
