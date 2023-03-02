@@ -1,4 +1,4 @@
-// Test utils:
+// Test utils.
 const {
 	describe,
 	it,
@@ -24,11 +24,16 @@ describe('nodester application', () => {
 	// app.setDatabase();
 	// app.set.database();
 
-	test('listening port', () => {
+	test('Application start', () => {
 		app.listen(PORT, function() {
 			expect(app.port).toBe(PORT);
+			expect(app.router._middlewares.isLocked).toBe(true);
+			expect(app.router._middlewares.length).toBe(2);
 
 			app.stop();
+
+			expect(app.router._middlewares.length).toBe(0);
+			expect(app.router._middlewares.isLocked).toBe(false);
 			expect(app.isListening).toBe(false);
 		});
 	});
