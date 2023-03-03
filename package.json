@@ -4,6 +4,13 @@
   "description": "A boilerplate framework for Node.js",
   "exports": {
     ".": "./lib/application/index.js",
+    "./controllers/mixins": "./lib/controllers/mixins/index.js",
+    "./controllers/methods": "./lib/controllers/mixins/index.js",
+    "./enum": "./lib/enums/Enum.js",
+    "./factories/errors": "./lib/factories/errors/index.js",
+    "./factories/responses/rest": "./lib/factories/responses/rest/index.js",
+    "./http/codes": "./lib/http/codes/index.js",
+    "./params": "./lib/params/Params.js",
     "./ql/sequelize": "./lib/middlewares/ql/sequelize",
     "./route": "./lib/router/route.js",
     "./router": "./lib/router/index.js"
