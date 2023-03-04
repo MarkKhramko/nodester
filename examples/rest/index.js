@@ -14,7 +14,7 @@ app.use(router());
 app.add.marker('GET_M', (req)=>req.method === 'GET');
 
 app.only('GET_M').use(async (req, res) => {
-	res.json({ msg: 'GET method response' });
+	res.json(req.nquery);
 });
 
 app.use((req, res)=>res.json({ msg: 'last' }));
