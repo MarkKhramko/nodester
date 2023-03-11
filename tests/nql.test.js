@@ -38,6 +38,17 @@ describe('nodester Query Language', () => {
 
 		// Broken includes.
 		'includes=comments(order=rand)&id=7&limit=3&includes=users(fields=id,content)',
+
+		// OR simple.
+		'or(index=2,position=5)',
+		// OR shortened.
+		'|(index=2,position=5)',
+
+		// NOT inside include.
+		'includes=comments(id=not(7))',
+
+		// Like simple.
+		'title=like(some_text)',
 	];
 
 	it('query "Simple where"', () => {
@@ -196,7 +207,7 @@ describe('nodester Query Language', () => {
 		tree.include('avatars').use('avatars');
 		tree.node.fields = [ 'id', 'content' ];
 		tree.node.order = 'rand';
-		const expected = tree.root.toObject()
+		const expected = tree.root.toObject();
 
 		expect(result).toMatchObject(expected);
 	});
@@ -213,10 +224,54 @@ describe('nodester Query Language', () => {
 		tree.up();
 		tree.include('users').use('users');
 		tree.node.fields = [ 'id', 'content' ];
-		const expected = tree.root.toObject()
+		const expected = tree.root.toObject();
 
 		expect(result).toMatchObject(expected);
 	});
 
+	test('Token "OR" simple', () => {
+		const lexer = new QueryLexer( queryStrings[11] );
+		const result = lexer.query;
+
+		const tree = new ModelsTree();
+		tree.node.addWhere({ or: [ { index: ['2'] }, { position: ['5'] } ] });
+		const expected = tree.root.toObject();
+
+		expect(result).toMatchObject(expected);
+	});
+
+	test('Token "OR" shortened', () => {
+		const lexer = new QueryLexer( queryStrings[12] );
+		const result = lexer.query;
+
+		const tree = new ModelsTree();
+		tree.node.addWhere({ or: [ { index: ['2'] }, { position: ['5'] } ] });
+		const expected = tree.root.toObject();
+
+		expect(result).toMatchObject(expected);
+	});
+
+	test('Token "NOT"', () => {
+		const lexer = new QueryLexer( queryStrings[13] );
+		const result = lexer.query;
+
+		const tree = new ModelsTree();
+		tree.include('comments').use('comments');
+		tree.node.addWhere({ id: { not: ['7'] }});
+		const expected = tree.root.toObject();
+
+		expect(result).toMatchObject(expected);
+	});
 	
+
+	test('Token "Like" simple', () => {
+		const lexer = new QueryLexer( queryStrings[14] );
+		const result = lexer.query;
+
+		const tree = new ModelsTree();
+		tree.node.addWhere({ title: { like: ['some_text'] }});
+		const expected = tree.root.toObject();
+
+		expect(result).toMatchObject(expected);
+	});
 });
