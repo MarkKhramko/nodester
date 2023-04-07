@@ -1,4 +1,4 @@
-# nodester Routing
+# Routing | nodester
 
 1) Extend default `nodester` router
 ```js

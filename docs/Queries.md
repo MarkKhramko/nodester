@@ -1,4 +1,4 @@
-# nodester Queries API
+# Queries API | nodester
 
 ## Like value
 

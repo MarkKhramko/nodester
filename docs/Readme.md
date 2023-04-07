@@ -1,2 +1,2 @@
-# nodester API description
+# API description | nodester
 

@@ -1,4 +1,4 @@
-# nodester Core concepts
+# Core concepts | nodester
 
 ## [Model](#model)-[Facade](#facade)-[Controller](#controller)
 

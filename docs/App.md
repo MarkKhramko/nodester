@@ -1,4 +1,4 @@
-# nodester Application
+# Application | nodester
 
 ## Init
 
