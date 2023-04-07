@@ -1,6 +1,6 @@
 {
   "name": "nodester",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A boilerplate framework for Node.js",
   "exports": {
     ".": "./lib/application/index.js",
@@ -14,6 +14,8 @@
     "./models/define": "./lib/models/define.js",
     "./params": "./lib/params/Params.js",
     "./ql/sequelize": "./lib/middlewares/ql/sequelize",
+    "./queries/Colander": "./lib/queries/Colander.js",
+    "./queries/traverse": "./lib/queries/traverse.js",
     "./route": "./lib/router/route.js",
     "./router": "./lib/router/index.js"
   },
