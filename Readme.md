@@ -95,7 +95,7 @@ The Philosophy of `nodester` is to provide a developer with a tool that can buil
 
 ### Goal
 
-The goal of `nodester` is to be a robust and flexible framework that makes iterative development easy.
+The goal of `nodester` is to be a robust and flexible framework that makes development in iteratations easy, and further scale possible.
 
 
 ## LICENSE
