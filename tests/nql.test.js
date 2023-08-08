@@ -73,7 +73,7 @@ describe('nodester Query Language', () => {
 		tree.node.limit = 3;
 		tree.node.skip = 10;
 		tree.node.order = 'desc';
-		tree.node.orderBy = 'index';
+		tree.node.order_by = 'index';
 		const expected = tree.root.toObject();
 
 		expect(result).toMatchObject(expected);
@@ -103,7 +103,7 @@ describe('nodester Query Language', () => {
 		tree.node.limit = 3;
 		tree.node.skip = 10;
 		tree.node.order = 'desc';
-		tree.node.orderBy = 'index';
+		tree.node.order_by = 'index';
 		const expected = tree.root.toObject();
 
 		expect(result).toMatchObject(expected);
@@ -157,7 +157,7 @@ describe('nodester Query Language', () => {
 		tree.include('users');
 		tree.include('likes') && tree.use('likes');
 		tree.node.order = 'rand';
-		tree.node.orderBy = 'position';
+		tree.node.order_by = 'position';
 		tree.up();
 		const expected = tree.root.toObject();
 
