@@ -1,12 +1,14 @@
 {
   "name": "nodester",
-  "version": "0.0.11",
+  "version": "0.0.2",
   "description": "A boilerplate framework for Node.js",
   "exports": {
     ".": "./lib/application/index.js",
+    "./controllers/methods": "./lib/controllers/methods/index.js",
     "./controllers/mixins": "./lib/controllers/mixins/index.js",
-    "./controllers/methods": "./lib/controllers/mixins/index.js",
     "./enum": "./lib/enums/Enum.js",
+    "./facades/methods": "./lib/facades/methods/index.js",
+    "./facades/mixins": "./lib/facades/mixins/index.js",
     "./factories/errors": "./lib/factories/errors/index.js",
     "./factories/responses/rest": "./lib/factories/responses/rest/index.js",
     "./http/codes": "./lib/http/codes/index.js",
@@ -17,7 +19,8 @@
     "./queries/Colander": "./lib/queries/Colander.js",
     "./queries/traverse": "./lib/queries/traverse.js",
     "./route": "./lib/router/route.js",
-    "./router": "./lib/router/index.js"
+    "./router": "./lib/router/index.js",
+    "./utils/strings": "./lib/utils/strings.util.js"
   },
   "directories": {
     "doc": "docs"
@@ -26,9 +29,9 @@
     "lib"
   ],
   "scripts": {
-    "examples:rest": "node ./examples/rest/index.js",
-    "examples:nql": "node ./examples/nql/index.js",
-    "test": "jest"
+    "test": "jest",
+
+    "examples:rest": "node ./examples/rest/index.js"
   },
   "author": "Mark Khramko <markkhramko@gmail.com>",
   "license": "MIT",
