@@ -32,17 +32,6 @@ To get list of `Countries` you will use it's main endpoint.
 * Example:
 `http://localhost:5001/api/v1/countries?name=England`
 
-### Limit
-Will limit amount of results to `N`. Default is 3.
-
-* Example:
-`http://localhost:5001/api/v1/countries?limit=10`.
-
-### Skip or offset
-Will skip first `N` results from the table. Default is 0.
-
-* Example:
-`http://localhost:5001/api/v1/countries?skip=10`.
 
 
 ## Includes
@@ -59,10 +48,39 @@ To subinclude Areas you will use dot and name of the submodel.
 `http://localhost:5001/api/v1/countries?includes=cities.areas`
 
 
-## Not a value
+
+## Limit
+Will limit amount of results to `N`. Default is 3.
+
+* Example:
+`http://localhost:5001/api/v1/countries?limit=10`.
+
+### Nested (inside `includes`)
+* Example:
+`http://localhost:5001/api/v1/countries?includes=cities(limit=2)`.
+
+
+
+## Skip (offset)
+Will skip first `N` results from the table. Default is 0.
+
+* Example:
+`http://localhost:5001/api/v1/countries?skip=10`.
+
+### Nested (inside `includes`)
+* Example:
+`http://localhost:5001/api/v1/countries?includes=cities(skip=2)`.
+
+
+
+## Not a value (Except)
 
 * Example:
 `http://localhost:5001/api/v1/countries?name=not(England)`
+
+* Short version:
+`http://localhost:5001/api/v1/countries?name=!(England)`
+
 
 
 ## Like value
@@ -79,6 +97,7 @@ To emulate SQL's `like %value%` use `?key=like(value)` in the query.
 `http://localhost:5001/api/v1/countries?name=notLike(Engl)`
 
 
+
 ## Or
 
 To emulate SQL's `where key=value or key=value` use `?key=or(value1,value2)` in the query.
@@ -88,6 +107,7 @@ To emulate SQL's `where key=value or key=value` use `?key=or(value1,value2)` in 
 `http://localhost:5001/api/v1/countries?name=or(England,Germany)`
 * Short version:
 `http://localhost:5001/api/v1/countries?name=|(England,Germany)`
+
 
 
 ## Order (Sorting)
@@ -102,7 +122,7 @@ To emulate SQL's `where key=value or key=value` use `?key=or(value1,value2)` in 
 Above `query` will sort `Countries[]` by it's `id`.
 
 
-### Nested (Includes)
+### Nested (inside `includes`)
 
 * Example:
 `http://localhost:5001/api/v1/countries?includes=cities(order_by=id&order=desc)`
