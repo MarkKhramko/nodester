@@ -4,25 +4,27 @@ Let's imagine you created a database with the following structure:
 
 ```
 • Countries
-	┣ id
-	┗ name
+  ┣ id
+  ┗ name
 
 • Cities
-	┣ id
-	┣ country_id
-	┗ name
+  ┣ id
+  ┣ country_id
+  ┗ name
 
 • Areas
-	┣ id
-	┣ city_id
-	┗ name
+  ┣ id
+  ┣ city_id
+  ┗ name
 ```
 
 _Even though, naming of models should start with the capital case, querying on them must be done with the lower and snake case._
 
 ## Basic
 
-To get list of Countries you will use:
+To get list of `Countries` you will use it's main endpoint.
+
+* Example:
 `http://localhost:5001/api/v1/countries`
 
 ### Based on the column value
@@ -33,7 +35,7 @@ To get list of Countries you will use:
 
 ## Includes
 
-To get Countries with Cities you will use the route with it's name.
+To get `Countries` with `Cities` you will use the route with it's name.
 
 * Example:
 `http://localhost:5001/api/v1/countries?includes=cities`
@@ -83,14 +85,14 @@ pass `?key=or(value1,value2)` in the query.
 `order_by` & `order` arguments can be set in `query`
 `http://localhost:5001/api/v1/countries?order_by=id&order=desc`
 
-Above `query` will sort Countries[] by it's id.
+Above `query` will sort `Countries[]` by it's id.
 
 
 #### Nested (Includes)
 
 `http://localhost:5001/api/v1/countries?includes=cities(order_by=id&order=desc)`
 
-Above `query` will sort Cities[] by it's id inside every Country object.
+Above `query` will sort `Cities[]` by it's id inside every `Country` object.
 
 It can also do this:
 `http://localhost:5001/api/v1/countries?includes=cities(order_by=id&order=desc).areas`
