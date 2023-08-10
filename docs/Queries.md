@@ -1,4 +1,55 @@
-# Queries API | nodester
+# Queries & Querying (NQR) | nodester
+
+Let's imagine you created a database with the following structure:
+
+```
+• Countries
+	┣ id
+	┗ name
+
+• Cities
+	┣ id
+	┣ country_id
+	┗ name
+
+• Areas
+	┣ id
+	┣ city_id
+	┗ name
+```
+
+_Even though, naming of models should start with the capital case, querying on them must be done with the lower and snake case._
+
+## Basic
+
+To get list of Countries you will use:
+`http://localhost:5001/api/v1/countries`
+
+### Based on the column value
+
+* Example:
+`http://localhost:5001/api/v1/countries?name=England`
+
+
+## Includes
+
+To get Countries with Cities you will use the route with it's name.
+
+* Example:
+`http://localhost:5001/api/v1/countries?includes=cities`
+
+### Subincludes
+To subinclude Areas you will use dot and name of the submodel.
+
+* Example:
+`http://localhost:5001/api/v1/countries?includes=cities.areas`
+
+
+## Not a value
+
+* Example:
+`http://localhost:5001/api/v1/countries?name=not(England)`
+
 
 ## Like value
 
@@ -9,7 +60,7 @@ pass `?key=like(value)` in the query.
 `http://localhost:5001/api/v1/countries?name=like(Engl)`
 
 
-## NotLike value
+### NotLike value
 
 * Example:
 `http://localhost:5001/api/v1/countries?name=notLike(Engl)`
@@ -25,23 +76,7 @@ pass `?key=or(value1,value2)` in the query.
 `http://localhost:5001/api/v1/countries?name=or(England,Germany)`
 
 
-## Count
-
-MySQL's `select count(value)` query is run by default in facade's `getMany` function
-
-* Response Example:
-```JSON
-{
-	"count": 10,
-	"countries": [ ... ],
-	"limit": 10,
-	"skip": 0,
-	"total_count": 195
-}
-```
-
 ## Order (Sorting)
-
 
 #### Top level
 
