@@ -94,3 +94,7 @@ app.use(router());
 
 ## Client
 Client is an entity that interacts with your application using REST API.
+
+
+## Copyright
+Copyright 2021-present [Mark Khramko](https://github.com/MarkKhramko)

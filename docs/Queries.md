@@ -70,8 +70,7 @@ pass `?key=like(value)` in the query.
 
 ## Or
 
-To emulate MySQL's `where key=value or key=value` query in URL,
-pass `?key=or(value1,value2)` in the query.
+To emulate SQL's `where key=value or key=value` use `?key=or(value1,value2)` in the query.
 * ! Note: don't use `spaces` between values.
 
 * Example:
@@ -85,14 +84,24 @@ pass `?key=or(value1,value2)` in the query.
 `order_by` & `order` arguments can be set in `query`
 `http://localhost:5001/api/v1/countries?order_by=id&order=desc`
 
-Above `query` will sort `Countries[]` by it's id.
+Above `query` will sort `Countries[]` by it's `id`.
 
 
 #### Nested (Includes)
 
+* Example:
 `http://localhost:5001/api/v1/countries?includes=cities(order_by=id&order=desc)`
 
-Above `query` will sort `Cities[]` by it's id inside every `Country` object.
+Above `query` will sort `Cities[]` by it's `id` inside every `Country` object.
 
-It can also do this:
-`http://localhost:5001/api/v1/countries?includes=cities(order_by=id&order=desc).areas`
+
+##### Order in subincludes
+
+* Example:
+`http://localhost:5001/api/v1/countries?includes=cities.areas(order_by=id&order=desc)`
+
+Above `query` will sort `Areas[]` by it's `id` inside every `City` inside every `Country` object.
+
+
+## Copyright
+Copyright 2021-present [Mark Khramko](https://github.com/MarkKhramko)

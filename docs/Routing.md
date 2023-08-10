@@ -32,3 +32,6 @@ module.exports = {
 	},
 }
 ```
+
+## Copyright
+Copyright 2021-present [Mark Khramko](https://github.com/MarkKhramko)
