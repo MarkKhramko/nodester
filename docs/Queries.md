@@ -42,7 +42,7 @@ To get `Countries` with `Cities` you will use the route with it's name.
 `http://localhost:5001/api/v1/countries?includes=cities`
 
 ### Subincludes
-To subinclude Areas you will use dot and name of the submodel.
+To also include `Areas` you will use a dot after the parent model.
 
 * Example:
 `http://localhost:5001/api/v1/countries?includes=cities.areas`
@@ -50,7 +50,7 @@ To subinclude Areas you will use dot and name of the submodel.
 
 
 ## Limit
-Will limit amount of results to `N`. Default is 3.
+Will limit amount of results to certain `N`. Default is 3.
 
 * Example:
 `http://localhost:5001/api/v1/countries?limit=10`.
