@@ -1,6 +1,6 @@
 {
   "name": "nodester",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A boilerplate framework for Node.js",
   "exports": {
     ".": "./lib/application/index.js",
@@ -15,6 +15,7 @@
     "./factories/errors": "./lib/factories/errors/index.js",
     "./factories/responses/rest": "./lib/factories/responses/rest/index.js",
     "./http/codes": "./lib/http/codes/index.js",
+    "./middlewares/formidable": "./lib/middlewares/formidable/index.js",
     "./models/associate": "./lib/models/associate.js",
     "./models/define": "./lib/models/define.js",
     "./params": "./lib/params/Params.js",
@@ -66,7 +67,7 @@
     "debug": "^4.3.4",
     "etag": "^1.8.1",
     "finalhandler": "^1.2.0",
-    "formidable": "^1.2.6",
+    "formidable": "^3.5.1",
     "fresh": "^0.5.2",
     "http-errors": "^2.0.0",
     "inflection": "^2.0.1",
