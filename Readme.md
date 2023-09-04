@@ -30,12 +30,13 @@ app.listen(8080, function() {
 
 
 ### Core concepts
-[Go to core concepts documentaion](docs/CoreConcepts.md)
+[Core concepts documentation ➡️](docs/CoreConcepts.md)
+
 
 ### Queries & Querying - Nodester Query Language (NQR)
 One of the main power points of nodester is it's query language. It's an extension of a REST API syntaxis for a broader integration with a database SQL. Read more about it in the documentation:
 
-[Go to NQR documentaion](docs/Queries.md)
+[NQR documentaion ➡️](docs/Queries.md)
 
 
 ### Database

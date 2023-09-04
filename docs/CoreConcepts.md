@@ -56,7 +56,7 @@ app.only('ADMIN').use(<handler/>);
 app.only('API').use(<handler/>);
 ```
 
-[More examples ➡️](docs/Markers.md)
+[More examples ➡️](Markers.md)
 
 
 ## Router
