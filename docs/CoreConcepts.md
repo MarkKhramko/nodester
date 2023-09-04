@@ -42,8 +42,8 @@ For example: our application has 2 domains:
 You add markers and handlers specifically for those domains:
 
 ```js
-app.add.marker('ADMIN', (req) => req.hostname === 'admin.awesomeapp.com');
-app.add.marker('API', (req) => req.hostname === 'api.awesomeapp.com');
+app.add.marker('ADMIN', (req) => req.get('host') === 'admin.awesomeapp.com');
+app.add.marker('API', (req) => req.get('host') === 'api.awesomeapp.com');
 ```
 
 And then use them:
