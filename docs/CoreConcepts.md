@@ -33,7 +33,7 @@ Util is a self-sufficient code snippet.
 
 Marker is a functional condition that returns `true | false`, based on data in request/response.
 
-Markers are more powerful indicators than simple route definitions as any parameter in request/response can be used.
+Markers are more powerful indicators than simple route definitions, as any parameter in request/response can be used.
 
 For example: our application has 2 domains:
 `admin.awesomeapp.com`
@@ -56,13 +56,7 @@ app.only('ADMIN').use(<handler/>);
 app.only('API').use(<handler/>);
 ```
 
-The same can be done for any parameter in request/response:
-
-```js
-app.add.marker('admin_role', (req) => req.role === 'admin');
-app.only('admin_role').route('get /secrets', <handler/>);
-app.only('admin_role').use(<handler/>);
-```
+[More examples ➡️](docs/Markers.md)
 
 
 ## Router
