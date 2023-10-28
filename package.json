@@ -1,31 +1,45 @@
 {
   "name": "nodester",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A boilerplate framework for Node.js",
   "exports": {
     ".": "./lib/application/index.js",
+
+    "./constants/ErrorCodes": "./lib/constants/ErrorCodes.js",
+
     "./controllers/methods": "./lib/controllers/methods/index.js",
     "./controllers/mixins": "./lib/controllers/mixins/index.js",
+
     "./database/connection": "./lib/database/connection.js",
     "./database/migration": "./lib/database/migration.js",
     "./database/utils": "./lib/database/utils.js",
+
     "./enum": "./lib/enums/Enum.js",
+
     "./facades/methods": "./lib/facades/methods/index.js",
     "./facades/mixins": "./lib/facades/mixins/index.js",
+
     "./factories/errors": "./lib/factories/errors/index.js",
     "./factories/responses/rest": "./lib/factories/responses/rest/index.js",
+
     "./http/codes": "./lib/http/codes/index.js",
     "./loggers/console": "./lib/loggers/console.js",
     "./loggers/dev": "./lib/loggers/dev.js",
+
     "./middlewares/formidable": "./lib/middlewares/formidable/index.js",
+
     "./models/associate": "./lib/models/associate.js",
     "./models/define": "./lib/models/define.js",
+
     "./params": "./lib/params/Params.js",
+
     "./ql/sequelize": "./lib/middlewares/ql/sequelize",
     "./queries/Colander": "./lib/queries/Colander.js",
     "./queries/traverse": "./lib/queries/traverse.js",
+
     "./route": "./lib/router/route.js",
     "./router": "./lib/router/index.js",
+
     "./utils/strings": "./lib/utils/strings.util.js"
   },
   "directories": {
