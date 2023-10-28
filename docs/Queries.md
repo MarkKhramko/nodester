@@ -138,5 +138,15 @@ Above `query` will sort `Cities[]` by it's `id` inside every `Country` object.
 Above `query` will sort `Areas[]` by it's `id` inside every `City` inside every `Country` object.
 
 
+## Count
+
+To count, for example, number of `Cities` inside each country, use `count(cities)` inside a `query`.
+
+* Example:
+`http://localhost:5001/api/v1/countries?count(cities)`
+
+It will return array of `countries` with the number of cities inside a `cities_count` key.
+
+
 ## Copyright
 Copyright 2021-present [Mark Khramko](https://github.com/MarkKhramko)

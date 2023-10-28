@@ -1,5 +1,33 @@
 # Colander | nodester
 
+## Basic examples
+
+```js
+const colander = new Colander({
+	fields: [
+		'id',
+		'country_id'
+		'name',
+	],
+	clauses: [
+		'count',
+		
+		'skip',
+		'limit',
+
+		'order',
+		'order_by',
+	],
+	includes: {
+		countries: new Colander(Country)
+	},
+	statics: {
+		clauses: {
+			limit: 10
+		}
+	}
+});
+```
 
 ## Statics
 
