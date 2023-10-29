@@ -40,6 +40,7 @@
     "./route": "./lib/router/route.js",
     "./router": "./lib/router/index.js",
 
+    "./utils/sql": "./lib/utils/sql.util.js",
     "./utils/strings": "./lib/utils/strings.util.js"
   },
   "directories": {
