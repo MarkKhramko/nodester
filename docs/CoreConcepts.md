@@ -3,12 +3,8 @@
 ## [Model](#model)-[Facade](#facade)-[Controller](#controller)
 
 
-## Model
-Model is a high-level definition of a database table.
-
-
-## Facade
-Facade is a wrapper around model.
+## Client
+Client is an entity that interacts with your application using REST API.
 
 
 ## Controller
@@ -16,17 +12,12 @@ Controller is a gatekeeper to a facade.
 It manages or directs the flow of data between the [Client](#client) and a [Facade](#facade).
 
 
-## Service
-Service manages interactions between application and other APIs.
-Other APIs include:
-- Third-party APIs;
-- API of node_modules;
-- API of modules inside your application.
+## Facade
+Facade is a wrapper around model.
 
 
-## Util
-
-Util is a self-sufficient code snippet.
+## Filter
+[Filter](./Filter.md) is a set of rules on how to process [Client's](#Client) input.
 
 
 ## Markers
@@ -59,6 +50,11 @@ app.only('API').use(<handler/>);
 [More examples ➡️](Markers.md)
 
 
+## Model
+Model is a high-level definition of a database table.
+
+
+
 ## Router
 
 Router is a built-in middleware.
@@ -75,6 +71,16 @@ router.add.route('get /books', { controlledBy: 'BooksController.getMany' } );
 router.add.route('get /books/:id', { controlledBy: 'BooksController.getOne' } );
 ```
 
+
+## Service
+Service manages interactions between application and other APIs.
+Other APIs include:
+- Third-party APIs;
+- API of node_modules;
+- API of modules inside your application.
+
+
+
 ### Using Router:
 
 ```js
@@ -86,8 +92,9 @@ app.use(router());
 ```
 
 
-## Client
-Client is an entity that interacts with your application using REST API.
+## Util
+Util is a self-sufficient code snippet.
+You can find all available utils under `nodester/utils`.
 
 
 ## Copyright
