@@ -22,7 +22,12 @@
     "./factories/errors": "./lib/factories/errors/index.js",
     "./factories/responses/rest": "./lib/factories/responses/rest/index.js",
 
+    "./filter": "./lib/filters/Filter.js",
+
     "./http/codes": "./lib/http/codes/index.js",
+    "./http/codes/descriptions": "./lib/http/codes/descriptions.js",
+    "./http/codes/symbols": "./lib/http/codes/symbols.js",
+
     "./loggers/console": "./lib/loggers/console.js",
     "./loggers/dev": "./lib/loggers/dev.js",
 
