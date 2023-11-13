@@ -1,9 +1,11 @@
 {
   "name": "nodester",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A boilerplate framework for Node.js",
   "exports": {
     ".": "./lib/application/index.js",
+
+    "./body/extract": "./lib/body/extract.js",
 
     "./constants/ErrorCodes": "./lib/constants/ErrorCodes.js",
 
@@ -39,14 +41,14 @@
     "./params": "./lib/params/Params.js",
 
     "./ql/sequelize": "./lib/middlewares/ql/sequelize",
-    "./queries/Colander": "./lib/queries/Colander.js",
-    "./queries/traverse": "./lib/queries/traverse.js",
+    "./query/traverse": "./lib/query/traverse.js",
 
     "./route": "./lib/router/route.js",
     "./router": "./lib/router/index.js",
 
     "./utils/sql": "./lib/utils/sql.util.js",
-    "./utils/strings": "./lib/utils/strings.util.js"
+    "./utils/strings": "./lib/utils/strings.util.js",
+    "./utils/sanitizations": "./lib/utils/sanitizations.util.js"
   },
   "directories": {
     "doc": "docs"
