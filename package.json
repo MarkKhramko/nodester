@@ -16,7 +16,7 @@
     "./database/migration": "./lib/database/migration.js",
     "./database/utils": "./lib/database/utils.js",
 
-    "./enum": "./lib/enums/Enum.js",
+    "./enum": "./lib/structures/Enum.js",
 
     "./facades/methods": "./lib/facades/methods/index.js",
     "./facades/mixins": "./lib/facades/mixins/index.js",
@@ -24,7 +24,7 @@
     "./factories/errors": "./lib/factories/errors/index.js",
     "./factories/responses/rest": "./lib/factories/responses/rest/index.js",
 
-    "./filter": "./lib/filters/Filter.js",
+    "./filter": "./lib/structures/Filter.js",
 
     "./http/codes": "./lib/http/codes/index.js",
     "./http/codes/descriptions": "./lib/http/codes/descriptions.js",
@@ -39,7 +39,7 @@
     "./models/associate": "./lib/models/associate.js",
     "./models/define": "./lib/models/define.js",
 
-    "./params": "./lib/params/Params.js",
+    "./params": "./lib/structures/Params.js",
 
     "./ql/sequelize": "./lib/middlewares/ql/sequelize",
     "./query/traverse": "./lib/query/traverse.js",
