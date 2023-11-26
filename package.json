@@ -34,6 +34,7 @@
     "./loggers/dev": "./lib/loggers/dev.js",
 
     "./middlewares/formidable": "./lib/middlewares/formidable/index.js",
+    "./middlewares/SearchParams": "./lib/middlewares/SearchParams/index.js",
 
     "./models/associate": "./lib/models/associate.js",
     "./models/define": "./lib/models/define.js",
