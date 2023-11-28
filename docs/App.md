@@ -3,13 +3,13 @@
 ## Barebones examples
 
 ```js
-	const nodester = require('nodester');
-	
-	const app = new nodester();
+const nodester = require('nodester');
 
-	app.listen(8080, function() {
-		console.log('listening on port', app.port);
-	});
+const app = new nodester();
+
+app.listen(8080, function() {
+  console.log('listening on port', app.port);
+});
 ```
 
 ## With database
@@ -21,21 +21,21 @@ const { buildConnection } = require('nodester/database/connection');
 // Standard sequilize configuration:
 // https://sequelize.org/docs/v6/getting-started/#connecting-to-a-database
 const db = buildConnection({
-	name: ...,
-	username: ...,
-	password: ...,
+  host: ...,
+  port: ...,
+  name: ...,
 
-	host: ...,
-	port: ...,
+  username: ...,
+  password: ...,
 
-	dialect: ...,
-	pool: ...,
-	charset: ...,
-	collate: ...,
+  dialect: ...,
+  pool: ...,
+  charset: ...,
+  collate: ...,
 
-	timestamps: ...,
+  timestamps: ...,
 
-	logging: ...,
+  logging: ...,
 });
 
 const app = new nodester();
