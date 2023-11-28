@@ -1,6 +1,20 @@
 # nodester
 >  A robust and flexible boilerplate framework that makes iterative development easy.
 
+<a href='https://www.npmjs.com/package/nodester'>
+  <img src='https://img.shields.io/npm/v/nodester.svg' alt='NPM version' />
+</a>
+
+
+## Installation
+
+Install with NPM
+
+```shell
+npm install -S nodester
+```
+
+
 ## Table of Contents
 
 - [Usage](#usage)
