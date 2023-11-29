@@ -33,6 +33,7 @@
     "./loggers/console": "./lib/loggers/console.js",
     "./loggers/dev": "./lib/loggers/dev.js",
 
+    "./middlewares/cookies": "./lib/middlewares/cookies/index.js",
     "./middlewares/formidable": "./lib/middlewares/formidable/index.js",
     "./middlewares/SearchParams": "./lib/middlewares/SearchParams/index.js",
 
