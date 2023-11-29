@@ -47,6 +47,9 @@
     "./route": "./lib/router/route.js",
     "./router": "./lib/router/index.js",
 
+    "./stacks/markers": "./lib/stacks/MarkersStack.js",
+    "./stacks/middlewares": "./lib/stacks/MiddlewaresStack.js",
+
     "./utils/sql": "./lib/utils/sql.util.js",
     "./utils/strings": "./lib/utils/strings.util.js",
     "./utils/sanitizations": "./lib/utils/sanitizations.util.js"
