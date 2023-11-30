@@ -1,8 +1,11 @@
 # nodester
->  A robust and flexible boilerplate framework that makes iterative development easy.
 
 [![NPM version](https://img.shields.io/npm/v/nodester)](https://www.npmjs.com/package/nodester)
 [![License](https://img.shields.io/npm/l/nodester)](https://www.npmjs.com/package/nodester)
+
+> **nodester** is a modern and versatile Node.js framework designed to streamline the development of robust and scalable web applications.
+
+**nodester Query Language (NQL):** The main reason of nodester's existence is the [nodester Query Language (NQL)]((docs/Queries.md), an extension of standard REST API syntax, it lets you craft complex queries with hierarchical associations.
 
 
 ## Installation
@@ -18,7 +21,6 @@ npm install -S nodester
 
 - [Usage](#usage)
 - [Documentation](#documentation)
-- [Extending App](#extending-application-functionality)
 - [Philosophy](#philosophy)
 - [License](#license)
 - [Copyright](#copyright)
@@ -47,10 +49,11 @@ app.listen(8080, function() {
 [Core concepts documentation ➡️](docs/CoreConcepts.md)
 
 
-### Queries & Querying - Nodester Query Language (NQR)
-One of the main power points of nodester is it's query language. It's an extension of a REST API syntaxis for a broader integration with a database SQL. Read more about it in the documentation:
+### Queries & Querying - Nodester Query Language (NQL)
+The true strength of nodester lies in its innovative query language. Serving as an extension of standard REST API syntax, this language offers a comprehensive and seamless integration with SQL databases, providing developers with a powerful tool for expressive and efficient data manipulation.
 
-[NQR documentaion ➡️](docs/Queries.md)
+Read more about it in the documentation:
+[NQL documentaion ➡️](docs/Queries.md)
 
 
 ### Database
@@ -70,7 +73,7 @@ The Philosophy of `nodester` is to provide a developer with a tool that can buil
 
 ### Goal
 
-The goal of `nodester` is to be a robust and flexible framework that makes development in iteratations easy, and further scale possible.
+The goal of `nodester` is to be a robust and flexible framework that makes development in iteratations easy, while laying the foundation for seamless scalability in the future.
 
 
 ## LICENSE

@@ -71,17 +71,6 @@ const app = new nodester();
 app.extend('static', serveStatic)(<path_to_static_directory/>);
 ```
 
-Of course you might just do this:
-```js
-const serveStatic = require('serve-static');
-
-const nodester = require('nodester');
-
-const app = new nodester();
-app.static = serveStatic;
-````
-But you'll never know if you did override any of the app's properties or did not.
-
 
 ### Extending class:
 

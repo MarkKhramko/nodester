@@ -3,7 +3,11 @@
 ## Basic examples
 
 ```js
-const filter = new Filter({
+const Country = require('#models/Country');
+const City = require('#models/City');
+const Area = require('#models/Area');
+
+const filter = new Filter(Country, {
 	fields: [
 		'id',
 		'country_id'
@@ -17,7 +21,11 @@ const filter = new Filter({
 		'order_by',
 	],
 	includes: {
-		countries: new Filter(Country)
+		cities: new Filter(City, {
+			includes: {
+				areas: new Filter(Area)
+			}
+		})
 	},
 	bounds: {
 		clauses: {
@@ -33,7 +41,7 @@ const filter = new Filter({
 ## Statics
 
 ```js
-new Filter({
+const filter = new Filter({
 	statics: {
 		attributes: {},
 		clauses: {

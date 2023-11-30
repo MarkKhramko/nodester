@@ -30,5 +30,7 @@ app.add.marker('API', req => req.get('host') === 'api.awesomeapp.com');
 app.only('API').use(router())
 ```
 
+This setup will ensure, that `GET` requests to `/statutus` are only processed when the `header` `host` with the value `api.awesomeapp.com` is present.
+
 ## Copyright
 Copyright 2021-present [Mark Khramko](https://github.com/MarkKhramko)
