@@ -5,7 +5,7 @@
 
 > **nodester** is a modern and versatile Node.js framework designed to streamline the development of robust and scalable web applications.
 
-**nodester Query Language (NQL):** The main reason of nodester's existence is the [nodester Query Language (NQL)]((docs/Queries.md), an extension of standard REST API syntax, it lets you craft complex queries with hierarchical associations.
+**nodester Query Language (NQL):** The main reason of nodester's existence is the [nodester Query Language (NQL)](docs/Queries.md), an extension of standard REST API syntax, it lets you craft complex queries with hierarchical associations.
 
 
 ## Installation
@@ -50,7 +50,7 @@ app.listen(8080, function() {
 
 
 ### Queries & Querying - Nodester Query Language (NQL)
-The true strength of nodester lies in its innovative query language. Serving as an extension of standard REST API syntax, this language offers a comprehensive and seamless integration with SQL databases, providing developers with a powerful tool for expressive and efficient data manipulation.
+The true strength of nodester lies in its query language. Serving as an extension of standard REST API syntax, it brings many aspects of SQL into REST requests, providing developers with a simple yet potent tool for expressive and efficient data querying.
 
 Read more about it in the documentation:
 [NQL documentaion ➡️](docs/Queries.md)
