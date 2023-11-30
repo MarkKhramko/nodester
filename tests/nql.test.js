@@ -49,6 +49,9 @@ describe('nodester Query Language', () => {
 
 		// Like simple.
 		'title=like(some_text)',
+
+		// Subinclude and isolated Horizontal.
+		'in=comments.user,likes',
 	];
 
 	it('query "Simple where"', () => {
@@ -262,7 +265,6 @@ describe('nodester Query Language', () => {
 
 		expect(result).toMatchObject(expected);
 	});
-	
 
 	test('Token "Like" simple', () => {
 		const lexer = new QueryLexer( queryStrings[14] );
@@ -274,4 +276,19 @@ describe('nodester Query Language', () => {
 
 		expect(result).toMatchObject(expected);
 	});
+
+	it('query "Subinclude and isolated Horizontal"', () => {
+		const lexer = new QueryLexer( queryStrings[15] );
+		result = lexer.query;
+
+		const tree = new ModelsTree();
+		tree.include('comments').use('comments');
+		tree.include('user');
+		tree.up();
+		tree.include('likes');
+		const expected = tree.root.toObject();
+
+		expect(result).toMatchObject(expected);
+	});
+
 });

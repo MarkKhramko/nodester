@@ -27,13 +27,13 @@ describe('nodester application', () => {
 	test('Application start', () => {
 		app.listen(PORT, function() {
 			expect(app.port).toBe(PORT);
-			expect(app.router._middlewares.isLocked).toBe(true);
-			expect(app.router._middlewares.length).toBe(2);
+			expect(app.isLocked).toBe(true);
+			expect(app.isListening).toBe(true);
+			expect(app.middlewaresStack.length).toBe(4);
 
 			app.stop();
 
-			expect(app.router._middlewares.length).toBe(0);
-			expect(app.router._middlewares.isLocked).toBe(false);
+			expect(app.isLocked).toBe(false);
 			expect(app.isListening).toBe(false);
 		});
 	});
