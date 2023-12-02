@@ -1,6 +1,6 @@
 {
   "name": "nodester",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A boilerplate framework for Node.js",
   "exports": {
     ".": "./lib/application/index.js",
@@ -17,11 +17,11 @@
     "./database/utils": "./lib/database/utils.js",
 
     "./enum": "./lib/structures/Enum.js",
+    "./errors": "./lib/errors/index.js",
 
     "./facades/methods": "./lib/facades/methods/index.js",
     "./facades/mixins": "./lib/facades/mixins/index.js",
 
-    "./factories/errors": "./lib/factories/errors/index.js",
     "./factories/responses/rest": "./lib/factories/responses/rest/index.js",
 
     "./filter": "./lib/structures/Filter.js",
