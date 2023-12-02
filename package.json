@@ -53,7 +53,9 @@
 
     "./utils/sql": "./lib/utils/sql.util.js",
     "./utils/strings": "./lib/utils/strings.util.js",
-    "./utils/sanitizations": "./lib/utils/sanitizations.util.js"
+    "./utils/sanitizations": "./lib/utils/sanitizations.util.js",
+
+    "./validators/arguments": "./lib/validators/arguments.js"
   },
   "directories": {
     "doc": "docs"
