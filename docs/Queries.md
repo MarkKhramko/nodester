@@ -1,4 +1,4 @@
-# Queries & Querying (NQR) | nodester
+# Queries & Querying (NQL) | nodester
 
 Let's imagine you created a database with the following structure:
 

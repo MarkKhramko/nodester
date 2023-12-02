@@ -5,7 +5,7 @@
 
 > **nodester** is a modern and versatile Node.js framework designed to streamline the development of robust and scalable web applications.
 
-**nodester Query Language (NQL):** The main reason of nodester's existence is the [nodester Query Language (NQL)](docs/Queries.md), an extension of standard REST API syntax, it lets you craft complex queries with hierarchical associations.
+The main reason of nodester's existence is the [nodester Query Language (NQL)](docs/Queries.md), an extension of standard REST API syntax, it lets you craft complex queries with hierarchical associations.
 
 
 ## Installation
