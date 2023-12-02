@@ -1,7 +1,7 @@
 {
   "name": "nodester",
   "version": "0.2.2",
-  "description": "A boilerplate framework for Node.js",
+  "description": "A versatile REST framework for Node.js",
   "exports": {
     ".": "./lib/application/index.js",
 
@@ -17,6 +17,7 @@
     "./database/utils": "./lib/database/utils.js",
 
     "./enum": "./lib/structures/Enum.js",
+
     "./errors": "./lib/errors/index.js",
 
     "./facades/methods": "./lib/facades/methods/index.js",
@@ -58,7 +59,9 @@
     "./validators/arguments": "./lib/validators/arguments.js"
   },
   "directories": {
-    "doc": "docs"
+    "docs": "docs",
+    "lib": "lib",
+    "tests": "tests"
   },
   "source": [
     "lib"
@@ -69,7 +72,10 @@
   },
   "author": "Mark Khramko <markkhramko@gmail.com>",
   "license": "MIT",
-  "repository": "MarkKhramko/nodester",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarkKhramko/nodester.git"
+  },
   "private": false,
   "bugs": {
     "url": "https://github.com/MarkKhramko/nodester/issues"
