@@ -23,7 +23,7 @@
     "./facades/methods": "./lib/facades/methods/index.js",
     "./facades/mixins": "./lib/facades/mixins/index.js",
 
-    "./factories/responses/rest": "./lib/factories/responses/rest/index.js",
+    "./factories/responses/rest": "./lib/factories/responses/rest.js",
 
     "./filter": "./lib/structures/Filter.js",
 
