@@ -1,6 +1,6 @@
 {
   "name": "nodester",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A versatile REST framework for Node.js",
   "exports": {
     ".": "./lib/application/index.js",
