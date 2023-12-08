@@ -3,65 +3,71 @@
 Let's imagine you created a database with the following structure:
 
 ```
-• Countries
+• countries
   ┣ id
   ┗ name
 
-• Cities
+• cities
   ┣ id
   ┣ country_id
   ┗ name
 
-• Areas
+• areas
   ┣ id
   ┣ city_id
   ┗ name
 
-• Languages
+• languages
   ┣ id
   ┣ name
   ┗ code
 
-• LanguageToCountryRelations
+• language_to_country_relations
   ┣ id
   ┣ language_id
   ┗ country_id
 
- • LanguageToCityRelations
+ • language_to_city_relations
   ┣ id
   ┣ language_id
   ┗ city_id
 ```
 
-_Even though, naming of models should start with the capital case, querying on them must be done with the lower and snake case._
-
 ## Basics
 
-To get list of `Countries` you will use it's main endpoint.
+To get list of `countries` you will use it's main endpoint.
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries`
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries
+```
 
 
 ### Based on the column value
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?name=England`
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?name=England
+```
 
 
 
 ## Includes
 
-To get `Countries` with `Cities` you will use the route with it's name.
+To get `countries` with `cities` you will use the route with it's name.
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?includes=cities`
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?includes=cities
+```
 
 ### Subincludes
-To also include `Areas` you will use a dot after the parent model.
+To also include `areas` you will use a dot after the parent model.
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?includes=cities.areas`
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?includes=cities.areas
+```
 
 Will output you:
 
@@ -103,8 +109,10 @@ Will output you:
 The term "Horizontal include" means include of associations on the same level of the hierarchy.
 To achieve it, use `,` token.
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?limit=1&includes=cities,languages`
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?limit=1&includes=cities,languages
+```
 
 Will output you:
 
@@ -141,8 +149,10 @@ Will output you:
 
 You can also use horizontal include in subquery with the `+` token.
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?limit=1&includes=cities.areas+languages`
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?limit=1&includes=cities.areas+languages
+```
 
 Will output you:
 
@@ -190,52 +200,70 @@ Will output you:
 ## Limit
 Will limit amount of results to certain `N`. Default is 3.
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?limit=10`.
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?limit=10
+```
 
 ### Nested (inside `includes`)
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?includes=cities(limit=2)`.
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?includes=cities(limit=2)
+```
 
 ### Subquery
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?includes=cities.areas(limit=2)`.
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?includes=cities.areas(limit=2)
+```
 
 ### All simultaneously
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?limit=3&includes=cities(limit=4).areas(limit=2)`.
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?limit=3&includes=cities(limit=4).areas(limit=2)
+```
 
 
 
 ## Skip (offset)
 Will skip first `N` results from the table. Default is 0.
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?skip=5`.
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?skip=5
+```
 
 ### Nested (inside `includes`)
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?includes=cities(skip=4)`.
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?includes=cities(skip=4)
+```
 
 ### Subquery
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?includes=cities.areas(skip=3)`.
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?includes=cities.areas(skip=3)
+```
 
 ### All simultaneously
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?skip=5&includes=cities(skip=4).areas(skip=3)`.
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?skip=5&includes=cities(skip=4).areas(skip=3)
+```
 
 
 
 ## Not a value (Except)
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?name=not(England)`
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?name=not(England)
+```
 
 * Short version:
 `http://localhost:8080/api/v1/countries?name=!(England)`
@@ -246,14 +274,18 @@ Will skip first `N` results from the table. Default is 0.
 
 To emulate SQL's `like %value%` use `?key=like(value)` in the query.
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?name=like(Engl)`
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?name=like(Engl)
+```
 
 
 ### NotLike value
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?name=notLike(Engl)`
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?name=notLike(Engl)
+```
 
 
 
@@ -262,11 +294,15 @@ To emulate SQL's `like %value%` use `?key=like(value)` in the query.
 To emulate SQL's `where key=value or key=value` use `?key=or(value1,value2)` in the query.
 * ! Note: don't use `spaces` between values.
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?name=or(England,Germany)`
-* Short version:
-`http://localhost:8080/api/v1/countries?name=|(England,Germany)`
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?name=or(England,Germany)
+```
 
+* Short version:
+```
+http://localhost:8080/api/v1/countries?name=|(England,Germany)
+```
 
 
 ## Order (Sorting)
@@ -275,35 +311,43 @@ To emulate SQL's `where key=value or key=value` use `?key=or(value1,value2)` in 
 
 `order_by` & `order` arguments can be set in the `query`.
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?order_by=id&order=desc`
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?order_by=id&order=desc
+```
 
-Above `query` will sort `Countries[]` by it's `id`.
+Above `query` will sort `countries[]` by it's `id`.
 
 
 ### Nested (inside `includes`)
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?includes=cities(order_by=id&order=desc)`
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?includes=cities(order_by=id&order=desc)
+```
 
-Above `query` will sort `Cities[]` by it's `id` inside every `Country` object.
+Above `query` will sort `cities[]` by it's `id` inside every `country` object.
 
 
 ### Order in subincludes
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?includes=cities.areas(order_by=id&order=desc)`
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?includes=cities.areas(order_by=id&order=desc)
+```
 
-Above `query` will sort `Areas[]` by it's `id` inside every `City` inside every `Country` object.
+Above `query` will sort `areas[]` by it's `id` inside every `city` inside every `country` object.
 
 
 ## Count
 
-To count, for example, number of `Cities` inside each country, use `count(cities)` inside a `query`.
+To count, for example, number of `cities` inside each country, use `count(cities)` inside a `query`.
 Argument inside `count()` must match the name of the include exactly.
 
-* Example `GET` request:
-`http://localhost:8080/api/v1/countries?count(cities)`
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?count(cities)
+```
 
 Will return array of `countries` with the number of cities inside a `cities_count` key.
 
