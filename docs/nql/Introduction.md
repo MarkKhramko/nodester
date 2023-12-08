@@ -1,4 +1,4 @@
-# Queries & Querying (NQL) | nodester
+# Introduction | nodester Query Language (NQL)
 
 Let's imagine you created a database with the following structure:
 
@@ -43,13 +43,49 @@ http://localhost:8080/api/v1/countries
 ```
 
 
-### Based on the column value
+### Based on the attribute (column) value
 
 * `GET` request:
 ```
-http://localhost:8080/api/v1/countries?name=England
+http://localhost:8080/api/v1/countries?name=Belgium
 ```
 
+Will output you:
+
+```js
+{
+  "content": {
+    "countries": [
+      {
+        "id": 17,
+        "name": 'Belgium'
+      }
+    ]
+  },
+  "error": null
+}
+```
+
+You can also setup a route `/countries/:id` and access it as follows:
+
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries/17
+```
+
+Will output you:
+
+```js
+{
+  "content": {
+    "country": {
+      "id": 17,
+      "name": 'Belgium'
+    }
+  },
+  "error": null
+}
+```
 
 
 ## Includes
@@ -59,6 +95,30 @@ To get `countries` with `cities` you will use the route with it's name.
 * `GET` request:
 ```
 http://localhost:8080/api/v1/countries?includes=cities
+```
+
+Will output you:
+
+```js
+{
+  "content": {
+    "countries": [
+      {
+        "id": 1,
+        "name": 'Algeria',
+
+        "cities": [
+          {
+            "id": 1,
+            "name": "Adrar",
+          },
+          ...
+        ]
+      }
+    ]
+  },
+  "error": null
+}
 ```
 
 ### Subincludes
@@ -257,54 +317,6 @@ http://localhost:8080/api/v1/countries?skip=5&includes=cities(skip=4).areas(skip
 ```
 
 
-
-## Not a value (Except)
-
-* `GET` request:
-```
-http://localhost:8080/api/v1/countries?name=not(England)
-```
-
-* Short version:
-`http://localhost:8080/api/v1/countries?name=!(England)`
-
-
-
-## Like value
-
-To emulate SQL's `like %value%` use `?key=like(value)` in the query.
-
-* `GET` request:
-```
-http://localhost:8080/api/v1/countries?name=like(Engl)
-```
-
-
-### NotLike value
-
-* `GET` request:
-```
-http://localhost:8080/api/v1/countries?name=notLike(Engl)
-```
-
-
-
-## Or
-
-To emulate SQL's `where key=value or key=value` use `?key=or(value1,value2)` in the query.
-* ! Note: don't use `spaces` between values.
-
-* `GET` request:
-```
-http://localhost:8080/api/v1/countries?name=or(England,Germany)
-```
-
-* Short version:
-```
-http://localhost:8080/api/v1/countries?name=|(England,Germany)
-```
-
-
 ## Order (Sorting)
 
 ### Top level
@@ -339,7 +351,15 @@ http://localhost:8080/api/v1/countries?includes=cities.areas(order_by=id&order=d
 Above `query` will sort `areas[]` by it's `id` inside every `city` inside every `country` object.
 
 
-## Count
+## Operators
+
+See the full operators documentation here:
+[Go to the operators documentation ➡️](docs/nql/Operators.md)
+
+
+## Functions
+
+### Count
 
 To count, for example, number of `cities` inside each country, use `count(cities)` inside a `query`.
 Argument inside `count()` must match the name of the include exactly.
@@ -349,7 +369,22 @@ Argument inside `count()` must match the name of the include exactly.
 http://localhost:8080/api/v1/countries?count(cities)
 ```
 
-Will return array of `countries` with the number of cities inside a `cities_count` key.
+Will output you:
+
+```js
+{
+  "content": {
+    "countries": [
+      {
+        "id": 1,
+        "name": 'Algeria',
+        "cities_count": 8001
+      }
+    ]
+  },
+  "error": null
+}
+```
 
 
 ## Copyright

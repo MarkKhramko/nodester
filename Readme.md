@@ -49,11 +49,11 @@ app.listen(8080, function() {
 [Core concepts documentation ➡️](docs/CoreConcepts.md)
 
 
-### Queries & Querying - Nodester Query Language (NQL)
+### Queries & Querying - nodester Query Language (NQL)
 The true strength of nodester lies in its query language. Serving as an extension of standard REST API syntax, it brings many aspects of SQL into REST requests, providing developers with a simple yet potent tool for expressive and efficient data querying.
 
 Read more about it in the documentation:
-[NQL documentaion ➡️](docs/Queries.md)
+[NQL documentaion ➡️](docs/nql/Introduction.md)
 
 
 ### Database
