@@ -290,6 +290,14 @@ describe('nodester Query Language', () => {
 
 			// Like simple.
 			'title=like(some_text)',
+
+			// Not like simple.
+			'title=notLike(some_text)',
+			// Not like short.
+			'title=!like(some_text)',
+
+			// IN simple.
+			'status=[REVIEWED,ANSWERED]'
 		];
 
 		test('"OR" simple', () => {
@@ -354,6 +362,39 @@ describe('nodester Query Language', () => {
 
 			const tree = new ModelsTree();
 			tree.node.addWhere({ title: { like: ['some_text'] }});
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('"NotLike" simple', () => {
+			const lexer = new QueryLexer( queryStrings[6] );
+			const result = lexer.query;
+
+			const tree = new ModelsTree();
+			tree.node.addWhere({ title: { notLike: ['some_text'] }});
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('"NotLike" short', () => {
+			const lexer = new QueryLexer( queryStrings[7] );
+			const result = lexer.query;
+
+			const tree = new ModelsTree();
+			tree.node.addWhere({ title: { notLike: ['some_text'] }});
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('"IN" simple', () => {
+			const lexer = new QueryLexer( queryStrings[8] );
+			const result = lexer.query;
+
+			const tree = new ModelsTree();
+			tree.node.addWhere({ status: { in: ['REVIEWED', 'ANSWERED'] }});
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
