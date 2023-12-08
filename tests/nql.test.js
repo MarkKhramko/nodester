@@ -17,8 +17,10 @@ describe('nodester Query Language', () => {
 		const queryStrings = [
 			// Simple where.
 			'id=10',
+			// Only certain attributes.
+			'a=id,text',
 			// All possible params.
-			'id=10&position=4&limit=3&skip=10&order=desc&order_by=index&fields=id,content,position,created_at',
+			'id=10&position=4&limit=3&skip=10&order=desc&order_by=index&a=id,content,position,created_at',
 		];
 
 		it('Simple where', () => {
@@ -32,14 +34,25 @@ describe('nodester Query Language', () => {
 			expect(result).toMatchObject(expected);
 		});
 
-		test('All possible params', () => {
+		it('Only certain attributes', () => {
 			const lexer = new QueryLexer( queryStrings[1] );
+			const result = lexer.query;
+
+			const tree = new ModelsTree();
+			tree.node.attributes = [ 'id', 'text' ];
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('All possible params', () => {
+			const lexer = new QueryLexer( queryStrings[2] );
 			const result = lexer.query;
 
 
 			const tree = new ModelsTree();
 			tree.node.addWhere({ id: ['10'], position: ['4'] });
-			tree.node.fields = [ 'id', 'content', 'position', 'created_at' ];
+			tree.node.attributes = [ 'id', 'content', 'position', 'created_at' ];
 			tree.node.limit = 3;
 			tree.node.skip = 10;
 			tree.node.order = 'desc';
@@ -55,7 +68,7 @@ describe('nodester Query Language', () => {
 			// Simple includes.
 			'includes=comments&id=7',
 			// Include with All possible params.
-			'includes=comments(id=10&position=4&limit=3&skip=10&order=desc&order_by=index&fields=id,content,position)',
+			'includes=comments(id=10&position=4&limit=3&skip=10&order=desc&order_by=index&a=id,content,position)',
 
 			// 2 horizontals
 			'includes=comments,users&id=1000',
@@ -66,7 +79,7 @@ describe('nodester Query Language', () => {
 			'in=reactions,comments(user_id=gte(4)&skip=10&limit=2).users,likes,reposts',
 
 			// Separated includes.
-			'includes=comments(order=rand)&id=7&limit=3&includes=users(fields=id,content)',
+			'includes=comments(order=rand)&id=7&limit=3&includes=users(a=id,content)',
 		];
 
 		test('Simple includes', () => {
@@ -89,7 +102,7 @@ describe('nodester Query Language', () => {
 			const tree = new ModelsTree();
 			tree.include('comments').use('comments');
 			tree.node.addWhere({ id: ['10'], position: ['4'] });
-			tree.node.fields = [ 'id', 'content', 'position' ];
+			tree.node.attributes = [ 'id', 'content', 'position' ];
 			tree.node.limit = 3;
 			tree.node.skip = 10;
 			tree.node.order = 'desc';
@@ -171,7 +184,7 @@ describe('nodester Query Language', () => {
 			tree.node.order = 'rand';
 			tree.up();
 			tree.include('users').use('users');
-			tree.node.fields = [ 'id', 'content' ];
+			tree.node.attributes = [ 'id', 'content' ];
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
