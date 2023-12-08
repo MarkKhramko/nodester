@@ -274,30 +274,12 @@ describe('nodester Query Language', () => {
 		});
 	});
 
-	describe('operations', () => {
+	describe('operators:or', () => {
 		const queryStrings = [
 			// OR simple.
 			'or(index=2,position=5)',
 			// OR short.
 			'|(index=2,position=5)',
-
-			// Not simple.
-			'key=not(main)',
-			// Not short.
-			'key=!(main)',
-			// NOT inside include.
-			'includes=comments(id=not(7))',
-
-			// Like simple.
-			'title=like(some_text)',
-
-			// Not like simple.
-			'title=notLike(some_text)',
-			// Not like short.
-			'title=!like(some_text)',
-
-			// IN simple.
-			'status=[REVIEWED,ANSWERED]'
 		];
 
 		test('"OR" simple', () => {
@@ -321,9 +303,20 @@ describe('nodester Query Language', () => {
 
 			expect(result).toMatchObject(expected);
 		});
+	});
+
+	describe('operators:not', () => {
+		const queryStrings = [
+			// Not simple.
+			'key=not(main)',
+			// Not short.
+			'key=!(main)',
+			// NOT inside include.
+			'includes=comments(id=not(7))'
+		];
 
 		test('"NOT" simple', () => {
-			const lexer = new QueryLexer( queryStrings[2] );
+			const lexer = new QueryLexer( queryStrings[0] );
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
@@ -334,7 +327,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('"NOT" short', () => {
-			const lexer = new QueryLexer( queryStrings[3] );
+			const lexer = new QueryLexer( queryStrings[1] );
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
@@ -345,7 +338,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('"NOT" inside includes', () => {
-			const lexer = new QueryLexer( queryStrings[4] );
+			const lexer = new QueryLexer( queryStrings[2] );
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
@@ -356,8 +349,21 @@ describe('nodester Query Language', () => {
 			expect(result).toMatchObject(expected);
 		});
 
+	});
+
+	describe('operators:like', () => {
+		const queryStrings = [
+			// Like simple.
+			'title=like(some_text)',
+
+			// Not like simple.
+			'title=notLike(some_text)',
+			// Not like short.
+			'title=!like(some_text)',
+		];
+
 		test('"Like" simple', () => {
-			const lexer = new QueryLexer( queryStrings[5] );
+			const lexer = new QueryLexer( queryStrings[0] );
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
@@ -368,7 +374,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('"NotLike" simple', () => {
-			const lexer = new QueryLexer( queryStrings[6] );
+			const lexer = new QueryLexer( queryStrings[1] );
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
@@ -379,7 +385,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('"NotLike" short', () => {
-			const lexer = new QueryLexer( queryStrings[7] );
+			const lexer = new QueryLexer( queryStrings[2] );
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
@@ -388,9 +394,16 @@ describe('nodester Query Language', () => {
 
 			expect(result).toMatchObject(expected);
 		});
+	});
+
+	describe('operators:in', () => {
+		const queryStrings = [
+			// IN simple.
+			'status=[REVIEWED,ANSWERED]',
+		];
 
 		test('"IN" simple', () => {
-			const lexer = new QueryLexer( queryStrings[8] );
+			const lexer = new QueryLexer( queryStrings[0] );
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
@@ -401,4 +414,84 @@ describe('nodester Query Language', () => {
 		});
 	});
 
+	describe('operators:inequality', () => {
+		const queryStrings = [
+			// Greater than.
+			'created_at=gt(2022)',
+
+			// Greater than or equal to.
+			'created_at=gte(2023-12-08)',
+
+			// Lower than.
+			'index=lt(10)',
+
+			// Lower than or equal to.
+			'index=lte(9)',
+
+			// Greater than in subinclude.
+			'in=comments.likes(index=gt(60))'
+		];
+
+		test('Greater than', () => {
+			const lexer = new QueryLexer( queryStrings[0] );
+			const result = lexer.query;
+
+
+			const tree = new ModelsTree();
+			tree.node.addWhere({ created_at: { gt: ['2022'] }});
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('Greater than or equal to', () => {
+			const lexer = new QueryLexer( queryStrings[1] );
+			const result = lexer.query;
+
+
+			const tree = new ModelsTree();
+			tree.node.addWhere({ created_at: { gte: ['2023-12-08'] }});
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('Lower than', () => {
+			const lexer = new QueryLexer( queryStrings[2] );
+			const result = lexer.query;
+
+
+			const tree = new ModelsTree();
+			tree.node.addWhere({ index: { lt: ['10'] }});
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('Lower than or equal to', () => {
+			const lexer = new QueryLexer( queryStrings[3] );
+			const result = lexer.query;
+
+
+			const tree = new ModelsTree();
+			tree.node.addWhere({ index: { lte: ['9'] }});
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('Greater than in subinclude', () => {
+			const lexer = new QueryLexer( queryStrings[4] );
+			const result = lexer.query;
+
+
+			const tree = new ModelsTree();
+			tree.include('comments').use('comments');
+			tree.include('likes').use('likes');
+			tree.node.addWhere({ index: { gt: ['60'] }});
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+	});
 });
