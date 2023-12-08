@@ -3,9 +3,9 @@
 [![NPM version](https://img.shields.io/npm/v/nodester)](https://www.npmjs.com/package/nodester)
 [![License](https://img.shields.io/npm/l/nodester)](https://www.npmjs.com/package/nodester)
 
-> **nodester** is a modern and versatile Node.js framework designed to streamline the development of robust and scalable web applications.
+> **nodester** is a Node.js framework designed to solve the problem of a complex data querying over HTTP.
 
-The main reason of nodester's existence is the [nodester Query Language (NQL)](docs/Queries.md), an extension of standard REST API syntax, it lets you craft complex queries with hierarchical associations.
+The main reason of nodester's existence is the [nodester Query Language (NQL)](docs/nql/Introduction.md), an extension of standard REST API syntax, it lets you craft complex queries with hierarchical associations.
 
 
 ## Installation
