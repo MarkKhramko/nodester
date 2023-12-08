@@ -9,7 +9,7 @@ Client is an entity that interacts with your application using REST API.
 
 ## Controller
 Controller is a gatekeeper to a facade.
-It manages or directs the flow of data between the [Client](#client) and a [Facade](#facade).
+It manages or directs the flow of data between the [client](#client) and a [Facade](#facade).
 
 
 ## Facade
@@ -17,7 +17,7 @@ Facade is a wrapper around model.
 
 
 ## Filter
-[Filter](./Filter.md) is a set of rules on how to process [Client's](#Client) input.
+[Filter](./Filter.md) is a set of rules on how to process [Client's](#client) input.
 
 
 ## Model
@@ -118,7 +118,39 @@ router.add.route('get /books', { controlledBy: 'BooksController.getMany' } );
 router.add.route('get /books/:id', { controlledBy: 'BooksController.getOne' } );
 ```
 
-### Using Router:
+Set specific [Filter](#Filter) middleware before request hits [Controller](#controller):
+
+```js
+const Filter = require('nodester/filter');
+const traverse = require('nodester/query/traverse');
+
+const City = require('#models/City');
+
+const filter = new Filter(City, {
+  attributes: [
+    'id',
+    'country_id'
+    'name',
+  ],
+  statics: {
+    attributes: {
+      country_id: 17
+    },
+  }
+};
+
+function cityFilter(req, res, next) {
+  const resultQuery = traverse(req.nquery, filter);
+  req.query = resultQuery;
+  return next();
+}
+
+...
+
+router.add.route('get /cities', { before: cityFilter, controlledBy: 'CitiesController.getMany' } );
+```
+
+### Using Router in the app:
 
 ```js
 const nodester = require('nodester');

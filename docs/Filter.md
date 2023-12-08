@@ -3,6 +3,8 @@
 ## Basic examples
 
 ```js
+const Filter = require('nodester/filter');
+
 const Country = require('#models/Country');
 const City = require('#models/City');
 const Area = require('#models/Area');
@@ -10,7 +12,6 @@ const Area = require('#models/Area');
 const filter = new Filter(Country, {
   attributes: [
     'id',
-    'country_id'
     'name',
   ],
   clauses: [    
@@ -22,6 +23,11 @@ const filter = new Filter(Country, {
   ],
   includes: {
     cities: new Filter(City, {
+      attributes: [
+        'id',
+        'country_id'
+        'name',
+      ],
       includes: {
         areas: new Filter(Area)
       }
@@ -40,9 +46,9 @@ const filter = new Filter(Country, {
 
 ## Statics
 
-Static override values from the query with set values.
+Statics override [client's](CoreConcepts.md#client) query values with your configured values.
 
-They should be used as way to limit access or amount of requests.
+> They should be used as way to limit access or amount of requests.
 
 ```js
 const filter = new Filter(City, {
@@ -52,7 +58,8 @@ const filter = new Filter(City, {
       country_id: 17
     },
     clauses: {
-      limit: 10
+      limit: 10,
+      skip: 2
     }
   }
 });
