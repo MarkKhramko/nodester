@@ -5,7 +5,11 @@
 
 > **nodester** is a Node.js framework designed to solve the problem of a complex data querying over HTTP.
 
-The main reason of nodester's existence is the [nodester Query Language (NQL)](docs/nql/Introduction.md), an extension of standard REST API syntax, it lets you craft complex queries with hierarchical associations.
+The main reason of nodester's existence is the [nodester Query Language (NQL) ➡️](docs/nql/Introduction.md), an extension of standard REST API syntax, it lets you craft complex queries with hierarchical associations.
+
+Building an application which allows users to build their own REST queries raises huge security concerns.
+That's why nodester was not developped as a middleware. It's a framework equipped which set of technologies enabling you to fully customize the request-response flow down to the specific user to only give them access to the data you intended.
+Check out [core concepts documentation ➡️](docs/CoreConcepts.md) for more info.
 
 
 ## Installation
