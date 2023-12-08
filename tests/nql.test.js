@@ -400,6 +400,9 @@ describe('nodester Query Language', () => {
 		const queryStrings = [
 			// IN simple.
 			'status=[REVIEWED,ANSWERED]',
+
+			// IN and limit clause.
+			'status=[REVIEWED,ANSWERED]&limit=3',
 		];
 
 		test('"IN" simple', () => {
@@ -407,6 +410,18 @@ describe('nodester Query Language', () => {
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
+			tree.node.addWhere({ status: { in: ['REVIEWED', 'ANSWERED'] }});
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('"IN" and "limit" clause', () => {
+			const lexer = new QueryLexer( queryStrings[1] );
+			const result = lexer.query;
+
+			const tree = new ModelsTree();
+			tree.node.limit = 3;
 			tree.node.addWhere({ status: { in: ['REVIEWED', 'ANSWERED'] }});
 			const expected = tree.root.toObject();
 
