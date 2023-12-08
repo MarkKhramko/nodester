@@ -60,7 +60,8 @@ Will output you:
         "id": 17,
         "name": 'Belgium'
       }
-    ]
+    ],
+    "count": 1
   },
   "error": null
 }
@@ -81,7 +82,8 @@ Will output you:
     "country": {
       "id": 17,
       "name": 'Belgium'
-    }
+    },
+    "count": 1
   },
   "error": null
 }
@@ -105,7 +107,7 @@ Will output you:
     "countries": [
       {
         "id": 1,
-        "name": 'Algeria',
+        "name": "Algeria",
 
         "cities": [
           {
@@ -115,7 +117,8 @@ Will output you:
           ...
         ]
       }
-    ]
+    ],
+    "count": ...
   },
   "error": null
 }
@@ -137,7 +140,7 @@ Will output you:
     "countries": [
       {
         "id": 1,
-        "name": 'Algeria',
+        "name": "Algeria",
 
         "cities": [
           {
@@ -156,7 +159,7 @@ Will output you:
         ]
       }
     ],
-    "count": 1
+    "count": ...
   },
   "error": null
 }
@@ -167,7 +170,8 @@ Will output you:
 ## Horizontal includes
 
 The term "Horizontal include" means include of associations on the same level of the hierarchy.
-To achieve it, use `,` token.
+
+Use `,` token to include additional models.
 
 * `GET` request:
 ```
@@ -182,7 +186,7 @@ Will output you:
     "countries": [
       {
         "id": 1,
-        "name": 'Algeria',
+        "name": "Algeria",
 
         "cities": [
           {
@@ -222,7 +226,7 @@ Will output you:
     "countries": [
       {
         "id": 1,
-        "name": 'Algeria',
+        "name": "Algeria",
 
         "cities": [
           {
@@ -354,7 +358,7 @@ Above `query` will sort `areas[]` by it's `id` inside every `city` inside every 
 ## Operators
 
 See the full operators documentation here:
-[Go to the operators documentation ➡️](docs/nql/Operators.md)
+[Go to the operators documentation ➡️](Operators.md)
 
 
 ## Functions
@@ -362,6 +366,7 @@ See the full operators documentation here:
 ### Count
 
 To count, for example, number of `cities` inside each country, use `count(cities)` inside a `query`.
+
 Argument inside `count()` must match the name of the include exactly.
 
 * `GET` request:
@@ -377,10 +382,12 @@ Will output you:
     "countries": [
       {
         "id": 1,
-        "name": 'Algeria',
+        "name": "Algeria",
         "cities_count": 8001
-      }
-    ]
+      },
+      ...
+    ],
+    "count": ...
   },
   "error": null
 }
