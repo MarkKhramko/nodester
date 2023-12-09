@@ -80,9 +80,8 @@ The Philosophy of `nodester` is to provide a developer with a tool that can buil
 The goal of `nodester` is to be a robust and flexible framework that makes development in iteratations easy, while laying the foundation for seamless scalability in the future.
 
 
-## LICENSE
-
-MIT
+## License
+[MIT](LICENSE)
 
 ## Copyright
 Copyright 2021-present [Mark Khramko](https://github.com/MarkKhramko)
