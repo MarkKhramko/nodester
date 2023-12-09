@@ -4,16 +4,73 @@
 
 
 ## Client
-Client is an entity that interacts with your application using REST API.
+Client is an entity that interacts with your application using HTTP or any other request methods.
 
 
 ## Controller
-Controller is a gatekeeper to a facade.
-It manages or directs the flow of data between the [client](#client) and a [Facade](#facade).
+Controller is a gatekeeper to a [Facade](#facade).
+
+It manages or directs the flow of data between the [Client](#client) and a [Facade](#facade).
+
+
+Example of the **Controller** which has methods
+```js
+getOne(req, res)
+getMany(req, res)
+createOne(req, res)
+updateOne(req, res)
+deleteOne(req, res)
+```
+
+
+```js
+const {
+  withDefaultCRUD,
+  withDefaultErrorProcessing
+} = require('nodester/controllers/mixins');
+
+const countriesFacade = require('#facades/countries');
+
+
+module.exports = function CountriesController() {
+  withDefaultCRUD(this, {
+    facade: countriesFacade
+  });
+  withDefaultErrorProcessing(this);
+}
+
+```
 
 
 ## Facade
 Facade is a wrapper around model.
+
+
+Example of the **Facade** which has methods
+```js
+getOne(params)
+getMany(params)
+createOne(params)
+updateOne(params)
+deleteOne(params)
+```
+
+
+```js
+const {
+  withDefaultCRUD
+} = require('nodester/facades/mixins');
+
+// Model.
+const Country = require('#models/Country');
+
+
+module.exports = function CountriesFacade() {
+  withDefaultCRUD(this, {
+    model: Country
+  });
+}
+```
 
 
 ## Filter
@@ -21,7 +78,6 @@ Facade is a wrapper around model.
 
 
 ## Model
-
 Model is a high-level definition of a database table.
 
 ```js
@@ -73,7 +129,6 @@ module.exports = city;
 ```
 
 ## Markers
-
 Marker is a functional condition that returns `true | false`, based on data in request/response.
 
 Markers are more powerful indicators than simple route definitions, as any parameter in request/response can be used.
@@ -103,7 +158,6 @@ app.only('API').use(<handler/>);
 
 
 ## Router
-
 Router is a built-in middleware.
 
 ```js
@@ -160,8 +214,8 @@ const app = new nodester();
 app.use(router());
 ```
 
-## Service
-Service manages interactions between application and other APIs.
+## Provider
+Provider manages interactions between application and other APIs.
 Other APIs include:
 - Third-party APIs;
 - API of node_modules;
@@ -170,6 +224,7 @@ Other APIs include:
 
 ## Util
 Util is a self-sufficient code snippet.
+
 You can find all available utils under `nodester/utils`.
 
 
