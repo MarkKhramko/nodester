@@ -71,6 +71,11 @@ Supported drivers:
 [Application documentation ➡️](docs/App.md)
 
 
+### Comments
+
+We (contributors) use [JSDoc](https://jsdoc.app/) to describe the actual code.
+
+
 ## Philosophy
 
 The Philosophy of `nodester` is to provide a developer with a tool that can build an app (or feature) in hours and scale it with ease for years.

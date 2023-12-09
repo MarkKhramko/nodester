@@ -1,4 +1,5 @@
 # Filter | nodester
+Filter is a set of rules on how to process [Client's](CoreConcepts.md#client) input.
 
 ## Basic examples
 
