@@ -55,6 +55,7 @@
     "./utils/sql": "./lib/utils/sql.util.js",
     "./utils/strings": "./lib/utils/strings.util.js",
     "./utils/sanitizations": "./lib/utils/sanitizations.util.js",
+    "./utils/types": "./lib/utils/types.util.js",
 
     "./validators/arguments": "./lib/validators/arguments.js"
   },
