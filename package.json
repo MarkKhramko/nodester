@@ -1,6 +1,6 @@
 {
   "name": "nodester",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "A versatile REST framework for Node.js",
   "directories": {
     "docs": "docs",
@@ -102,7 +102,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "jest",
-    "publish": "npm run lint && npm run publish && npm publish"
+    "publish": "npm run lint && npm publish"
   },
   "author": "Mark Khramko <markkhramko@gmail.com>",
   "license": "MIT",
