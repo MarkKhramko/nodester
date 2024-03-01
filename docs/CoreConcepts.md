@@ -128,6 +128,7 @@ city.associate = ({ City, ...models }) => {
 module.exports = city;
 ```
 
+
 ## Markers
 Marker is a functional condition that returns `true | false`, based on data in request/response.
 
@@ -172,6 +173,38 @@ router.add.route('get /books', { controlledBy: 'BooksController.getMany' } );
 router.add.route('get /books/:id', { controlledBy: 'BooksController.getOne' } );
 ```
 
+### Middleware for a specific route
+
+You can add custom middleware which will run when a specific route is requested.
+
+```js
+const Router = require('nodester/router');
+
+const controllersPath = <path_to_controllers_directory/>;
+const router = new Router({ controllersPath });
+
+const subscriptionPass = require('#middlewares/subscriptionPass');
+
+router.add.route('get /books', {
+  before: subscriptionPass,
+  controlledBy: 'BooksController.getMany'
+});
+```
+
+You can also provide an array of middlewares:
+
+```js
+const middleware1 = require('...');
+const middleware2 = require('...');
+
+router.add.route('get /books', {
+  before: [ middleware1, middleware2 ],
+  controlledBy: 'BooksController.getMany'
+});
+```
+
+### Filters for specific routes
+
 Set specific [Filter](#Filter) middleware before request hits [Controller](#controller):
 
 ```js
@@ -201,10 +234,13 @@ function cityFilter(req, res, next) {
 
 ...
 
-router.add.route('get /cities', { before: cityFilter, controlledBy: 'CitiesController.getMany' } );
+router.add.route('get /cities', { 
+  before: cityFilter,
+  controlledBy: 'CitiesController.getMany'
+});
 ```
 
-### Using Router in the app:
+### Using Router in the app
 
 ```js
 const nodester = require('nodester');
@@ -213,6 +249,7 @@ const router = require(<path_to_router_definition/>);
 const app = new nodester();
 app.use(router());
 ```
+
 
 ## Provider
 Provider manages interactions between application and other APIs.
