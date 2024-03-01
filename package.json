@@ -1,6 +1,6 @@
 {
   "name": "nodester",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "A versatile REST framework for Node.js",
   "directories": {
     "docs": "docs",
@@ -19,6 +19,10 @@
 
     "./controllers/methods": "./lib/controllers/methods/index.js",
     "./controllers/mixins": "./lib/controllers/mixins/index.js",
+    
+    "./dependencies/mysql2": "./dependencies/mysql2.js",
+    "./dependencies/pg": "./dependencies/pg.js",
+    "./dependencies/sequelize": "./dependencies/sequelize.js",
 
     "./database/connection": "./lib/database/connection.js",
     "./database/migration": "./lib/database/migration.js",
