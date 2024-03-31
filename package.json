@@ -106,8 +106,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "jest",
-    "publish": "npm run lint && npm publish"
+    "test": "jest"
   },
   "author": "Mark Khramko <markkhramko@gmail.com>",
   "license": "MIT",
