@@ -56,7 +56,7 @@
     "./params": "./lib/structures/Params.js",
 
     "./ql/sequelize": "./lib/middlewares/ql/sequelize/index.js",
-    "./query/traverse": "./lib/query/traverse.js",
+    "./query/traverse": "./lib/query/traverse/index.js",
 
     "./route": "./lib/router/route.js",
     "./router": "./lib/router/index.js",
