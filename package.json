@@ -1,6 +1,6 @@
 {
   "name": "nodester",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "A versatile REST framework for Node.js",
   "directories": {
     "docs": "docs",
@@ -46,6 +46,7 @@
     "./loggers/console": "./lib/loggers/console.js",
     "./loggers/dev": "./lib/loggers/dev.js",
 
+    "./middlewares/404": "./lib/middlewares/404/index.js",
     "./middlewares/cookies": "./lib/middlewares/cookies/index.js",
     "./middlewares/formidable": "./lib/middlewares/formidable/index.js",
     "./middlewares/SearchParams": "./lib/middlewares/SearchParams/index.js",
