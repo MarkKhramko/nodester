@@ -76,9 +76,9 @@ describe('nodester Query Language', () => {
 			// Horizontals queried.
 			'includes=comments(order=desc),users,likes(order=rand),reposts&id=1000',
 			// Horizontals queried №2.
+			'in=comments(order_by=index&order=asc).users.karma',
+			// Horizontals queried №3.
 			'in=reactions,comments(user_id=gte(4)&skip=10&limit=2).users,likes,reposts',
-
-			// Separated includes.
 			'includes=comments(order=rand)&id=7&limit=3&includes=users(a=id,content)',
 		];
 
@@ -151,6 +151,24 @@ describe('nodester Query Language', () => {
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
+			tree.include('comments').use('comments');
+
+			tree.node.order_by = 'index';
+			tree.node.order = 'asc';
+
+			tree.include('users') && tree.use('users');
+			tree.include('karma');
+
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('Horizontals queried №3', () => {
+			const lexer = new QueryLexer( queryStrings[5] );
+			const result = lexer.query;
+
+			const tree = new ModelsTree();
 			tree.include('reactions');
 
 			tree.include('comments').use('comments');
@@ -174,7 +192,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Separated includes"', () => {
-			const lexer = new QueryLexer( queryStrings[5] );
+			const lexer = new QueryLexer( queryStrings[6] );
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
