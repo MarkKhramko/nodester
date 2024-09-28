@@ -64,26 +64,30 @@ describe('nodester Query Language', () => {
 	});
 
 	describe('includes', () => {
-		const queryStrings = [
+		const queryStrings = {
 			// Simple includes.
-			'includes=comments&id=7',
-			// Include with All possible params.
-			'includes=comments(id=10&position=4&limit=3&skip=10&order=desc&order_by=index&a=id,content,position)',
+			'simple-includes': 'includes=comments&id=7',
+			// Include with params.
+			'include-with-params': 'includes=comments(id=10&position=4&limit=3&skip=10&order=desc&order_by=index&a=id,content,position)',
 
-			// 2 horizontals
-			'includes=comments,users&id=1000',
+			// 2 horizontals.
+			'2-horizontals': 'includes=comments,users&id=1000',
+			// 4 horizontals with subquery.
+			'4-horizontals': 'in=categories,replies.users,comments(order_by=position&order=desc),users.avatars',
 			
 			// Horizontals queried.
-			'includes=comments(order=desc),users,likes(order=rand),reposts&id=1000',
+			'horizontals-queried': 'includes=comments(order=desc),users,likes(order=rand),reposts&id=1000',
 			// Horizontals queried №2.
-			'in=comments(order_by=index&order=asc).users.karma',
+			'horizontals-queried-2': 'in=comments(order_by=index&order=asc).users.karma',
 			// Horizontals queried №3.
-			'in=reactions,comments(user_id=gte(4)&skip=10&limit=2).users,likes,reposts',
-			'includes=comments(order=rand)&id=7&limit=3&includes=users(a=id,content)',
-		];
+			'horizontals-queried-3': 'in=reactions,comments(user_id=gte(4)&skip=10&limit=2).users,likes,reposts',
+			
+			// Separated includes.
+			'separated-includes': 'includes=comments(order=rand)&id=7&limit=3&includes=users(a=id,content)',
+		};
 
 		test('Simple includes', () => {
-			const lexer = new QueryLexer( queryStrings[0] );
+			const lexer = new QueryLexer( queryStrings['simple-includes'] );
 			const result = lexer.query;
 
 
@@ -96,7 +100,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Include with all possible params', () => {
-			const lexer = new QueryLexer( queryStrings[1] );
+			const lexer = new QueryLexer( queryStrings['include-with-params'] );
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
@@ -113,7 +117,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('2 horizontals', () => {
-			const lexer = new QueryLexer( queryStrings[2] );
+			const lexer = new QueryLexer( queryStrings['2-horizontals'] );
 			const result = lexer.query;
 
 
@@ -126,8 +130,39 @@ describe('nodester Query Language', () => {
 			expect(result).toMatchObject(expected);
 		});
 
+		test('4 horizontals', () => {
+			// in=categories,replies.users,comments(order_by=position&order=desc),users.avatars
+
+			const lexer = new QueryLexer( queryStrings['4-horizontals'] );
+			const result = lexer.query;
+
+
+			const tree = new ModelsTree();
+			tree.include('categories');
+			tree.include('replies');
+			tree.include('comments');
+			tree.include('users');
+
+			tree.use('replies');
+			tree.include('users');
+
+			tree.up();
+
+			tree.use('comments');
+			tree.node.order = 'desc';
+			tree.node.order_by = 'position';
+
+			tree.up();
+			tree.use('users');
+			tree.include('avatars');
+
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
 		test('Horizontals queried', () => {
-			const lexer = new QueryLexer( queryStrings[3] );
+			const lexer = new QueryLexer( queryStrings['horizontals-queried'] );
 			const result = lexer.query;
 
 
@@ -147,7 +182,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Horizontals queried №2', () => {
-			const lexer = new QueryLexer( queryStrings[4] );
+			const lexer = new QueryLexer( queryStrings['horizontals-queried-2'] );
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
@@ -165,7 +200,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Horizontals queried №3', () => {
-			const lexer = new QueryLexer( queryStrings[5] );
+			const lexer = new QueryLexer( queryStrings['horizontals-queried-3'] );
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
@@ -192,7 +227,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Separated includes"', () => {
-			const lexer = new QueryLexer( queryStrings[6] );
+			const lexer = new QueryLexer( queryStrings['separated-includes'] );
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
