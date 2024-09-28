@@ -7,7 +7,7 @@ const {
 } = require('@jest/globals');
 
 // Configs.
-const PORT = 8080;
+const PORT = 8100;
 
 // Our lib.
 const Nodester = require('../lib/application');
