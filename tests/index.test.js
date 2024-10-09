@@ -31,10 +31,10 @@ describe('nodester application', () => {
 			expect(app.isListening).toBe(true);
 			expect(app.middlewaresStack.length).toBe(4);
 
-			app.stop();
-
-			expect(app.isLocked).toBe(false);
-			expect(app.isListening).toBe(false);
+			app.stop(() => {
+				expect(app.isLocked).toBe(false);
+				expect(app.isListening).toBe(false);
+			});
 		});
 	});
 });
