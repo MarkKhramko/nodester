@@ -358,7 +358,7 @@ Above `query` will sort `areas[]` by it's `id` inside every `city` inside every 
 ## Operators
 
 See the full operators documentation here:
-[Go to the operators documentation ➡️](Operators.md)
+[Go to the operators documentation →](Operators.md)
 
 
 ## Functions
