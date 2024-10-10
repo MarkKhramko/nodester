@@ -39,9 +39,27 @@ const db = require('#db');
 const app = new nodester();
 app.set.database(db);
 
+// Optional beforeStart hook:
+app.beforeStart(async ()=>{
+  // Do any asynchronous initializations
+  // before app.listen
+  // ...
+});
+
+// Start the http server:
 app.listen(8080, function() {
   console.log('listening on port', app.port);
 });
+
+// Gracefully shut down:
+process.once('SIGTERM', () => {
+  app.stop(() => {
+    const pid = process.pid;
+    console.info('Process', pid, 'terminated\n');
+    process.exit(0);
+  });
+});
+
 ```
 
 
