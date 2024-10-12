@@ -357,41 +357,22 @@ Above `query` will sort `areas[]` by it's `id` inside every `city` inside every 
 
 ## Operators
 
-See the full operators documentation here:
+See the full Operators documentation here:
 [Go to the operators documentation →](Operators.md)
 
 
 ## Functions
 
-### Count
+Functions are called using `functions` or `fn` (in short) keys.
 
-To count, for example, number of `cities` inside each country, use `count(cities)` inside a `query`.
-
-Argument inside `count()` must match the name of the include exactly.
-
+For example:
 * `GET` request:
 ```
-http://localhost:8080/api/v1/countries?count(cities)
+http://localhost:8080/api/v1/countries?functions=count(cities)
 ```
 
-Will output you:
-
-```js
-{
-  "content": {
-    "countries": [
-      {
-        "id": 1,
-        "name": "Algeria",
-        "cities_count": 8001
-      },
-      ...
-    ],
-    "count": ...
-  },
-  "error": null
-}
-```
+See the full Functions documentation here:
+[Go to the functions documentation →](Functions.md)
 
 
 ## Copyright
