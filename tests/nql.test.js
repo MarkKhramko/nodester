@@ -575,4 +575,60 @@ describe('nodester Query Language', () => {
 			expect(result).toMatchObject(expected);
 		});
 	});
+
+
+	describe('functions', () => {
+		const queryStrings = {
+			count_long: '?functions=count(comments)',
+			count_short: '?fn=count(comments)',
+
+			count_and_includes: '?fn=count(comments)&in=comments',
+		}
+
+		test('Count (full key name)', () => {
+			const lexer = new QueryLexer( queryStrings.count_long );
+			const result = lexer.query;
+
+
+			const tree = new ModelsTree();
+			tree.node.addFunction({
+				fn: 'count',
+				args: ['comments']
+			})
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('Count (short key name)', () => {
+			const lexer = new QueryLexer( queryStrings.count_long );
+			const result = lexer.query;
+
+
+			const tree = new ModelsTree();
+			tree.node.addFunction({
+				fn: 'count',
+				args: ['comments']
+			})
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('Count and includes', () => {
+			const lexer = new QueryLexer( queryStrings.count_and_includes );
+			const result = lexer.query;
+
+
+			const tree = new ModelsTree();
+			tree.node.addFunction({
+				fn: 'count',
+				args: ['comments']
+			})
+			tree.include('comments');
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+	});
 });
