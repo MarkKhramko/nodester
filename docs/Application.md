@@ -50,7 +50,7 @@ app.listen(8080, function() {
 ## Extending Application functionality
 
 
-### Extending instance (safe way):
+### Extending Instance (safe way):
 
 ```js
 const serveStatic = require('serve-static');
@@ -73,9 +73,9 @@ app.extend('static', serveStatic)(<path_to_static_directory/>);
 ```
 
 
-### Extending class:
+### Extending Class:
 
-If you really want to override properties or use `nodester` as a boilerplate, you should extend default Application class:
+If you really want to override properties or use `nodester` as a boilerplate, you should extend the default application class:
 
 ```js
 const NodesterApp = require('nodester');
@@ -88,7 +88,7 @@ class MyApp extends NodesterApp {
   // Override everything you want here...
 }
 
-// Don't forget to expose.
+// Don't forget to export.
 module.exports = MyApp;
 ```
 

@@ -83,11 +83,11 @@ Supported drivers:
 - MySQL
 - PostgreSQL
 
-[How to setup a database →](docs/App.md#with-database)
+[How to setup a database →](docs/Application.md#with-database)
 
 
 ### Application
-[Application documentation →](docs/App.md)
+[Application documentation →](docs/Application.md)
 
 
 ### Comments
