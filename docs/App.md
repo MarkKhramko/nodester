@@ -12,7 +12,7 @@ app.listen(8080, function() {
 });
 ```
 
-## With database
+## With a database
 
 ```js
 const nodester = require('nodester');
@@ -45,6 +45,7 @@ app.listen(8080, function() {
   console.log('listening on port', app.port);
 });
 ```
+
 
 ## Extending Application functionality
 

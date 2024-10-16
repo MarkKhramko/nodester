@@ -23,12 +23,10 @@ Let's imagine you created a database with the following structure:
   ┗ code
 
 • language_to_country_relations
-  ┣ id
   ┣ language_id
   ┗ country_id
 
  • language_to_city_relations
-  ┣ id
   ┣ language_id
   ┗ city_id
 ```

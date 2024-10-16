@@ -16,6 +16,8 @@ const filter = new Filter(Country, {
     'name',
   ],
   clauses: [    
+    'group_by',
+
     'skip',
     'limit',
 
@@ -33,12 +35,26 @@ const filter = new Filter(Country, {
         areas: new Filter(Area)
       }
     })
-  },
+  }
+});
+```
+
+## Bounds
+
+Bounds are used to set `clauses` within a certain range.
+
+```js
+const filter = new Filter(City, {
+  ...,
   bounds: {
     clauses: {
       limit: {
         min: 1,
         max: 30
+      },
+      skip: {
+        min: 0,
+        max: 10
       }
     }
   }
@@ -49,7 +65,7 @@ const filter = new Filter(Country, {
 
 Statics override [client's](CoreConcepts.md#client) query values with your configured values.
 
-> They should be used as way to limit access or amount of requests.
+> They should be used as a way to limit access to data or to manage the number of requests.
 
 ```js
 const filter = new Filter(City, {

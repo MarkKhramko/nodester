@@ -40,7 +40,7 @@ const app = new nodester();
 app.set.database(db);
 
 // Optional beforeStart hook:
-app.beforeStart(async ()=>{
+app.beforeStart(async () => {
   // Do any asynchronous initializations
   // before app.listen
   // ...
@@ -71,7 +71,7 @@ process.once('SIGTERM', () => {
 
 
 ### Queries & querying - nodester Query Language (NQL)
-The true strength of nodester lies in its query language. Serving as an extension of standard REST API syntax, it brings many aspects of SQL into REST requests, providing developers with a simple yet potent tool for expressive and efficient data querying.
+The true strength of nodester lies in its query language. Serving as an extension of standard REST API syntax, it brings many aspects of SQL into REST requests, providing developers with a simple yet powerful tool for expressive and efficient data querying.
 
 Read more about it in the documentation:
 [NQL documentaion →](docs/nql/Introduction.md)
