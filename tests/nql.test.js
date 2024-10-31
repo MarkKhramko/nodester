@@ -576,13 +576,55 @@ describe('nodester Query Language', () => {
 		});
 	});
 
+	describe('operators:and', () => {
+		const queryStrings = {
+			and_simple: 'id=gte(2)&id=lt(5)',
+			and_more_op: 'title=like(book)&title=notLike(book #3)&title=notLike(book #4)',
+			and_scattered: 'name=like(John)&in=avatar&name=notLike(Drake)'
+		}
+
+		test('AND (simple)', () => {
+			const lexer = new QueryLexer( queryStrings.and_simple );
+			const result = lexer.query;
+
+			const tree = new ModelsTree();
+			tree.node.addWhere({ id: { gte: ['2'], lt: ['5'] }});
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('AND (more OP)', () => {
+			const lexer = new QueryLexer( queryStrings.and_more_op );
+			const result = lexer.query;
+
+			const tree = new ModelsTree();
+			tree.node.addWhere({ title: { like: ['book'], notLike: ['book #3', 'book #4'] }});
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('AND (scattered)', () => {
+			const lexer = new QueryLexer( queryStrings.and_scattered );
+			const result = lexer.query;
+
+			const tree = new ModelsTree();
+			tree.include('avatar');
+			tree.node.addWhere({ name: { like: ['John'], notLike: ['Drake'] }});
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+	});
+
 
 	describe('functions', () => {
 		const queryStrings = {
-			count_long: '?functions=count(comments)',
-			count_short: '?fn=count(comments)',
+			count_long: 'functions=count(comments)',
+			count_short: 'fn=count(comments)',
 
-			count_and_includes: '?fn=count(comments)&in=comments',
+			count_and_includes: 'fn=count(comments)&in=comments',
 		}
 
 		test('Count (full key name)', () => {
