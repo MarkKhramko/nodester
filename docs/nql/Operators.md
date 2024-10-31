@@ -45,6 +45,14 @@ http://localhost:8080/api/v1/countries?name=notLike(Belg)
 http://localhost:8080/api/v1/countries?name=!like(Belg)
 ```
 
+## And
+To emulate SQL's `where <key>=<value> and <key>=<value>` use `?<key>=<value>,<value>` in the query.
+
+* `GET` request:
+```
+http://localhost:8080/api/v1/countries?name=like(Slov),notLike(Slovakia)
+```
+
 
 ## Or
 

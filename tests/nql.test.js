@@ -578,9 +578,12 @@ describe('nodester Query Language', () => {
 
 	describe('operators:and', () => {
 		const queryStrings = {
-			and_simple: 'id=gte(2)&id=lt(5)',
-			and_more_op: 'title=like(book)&title=notLike(book #3)&title=notLike(book #4)',
-			and_scattered: 'name=like(John)&in=avatar&name=notLike(Drake)'
+			and_simple: 'id=gte(2),lt(5)',
+			and_more_op: 'title=like(book),notLike(book #3),notLike(book #4)',
+
+			and_in_subincludes_0: 'in=comments(text=like(hi),notLike(hi!))',
+			and_in_subincludes_1: 'id=4&in=comments(text=like(hi),notLike(hi!))',
+			and_in_subincludes_2: 'title=like(book),notLike(book #3)&in=comments(text=like(hi),notLike(hi!))',
 		}
 
 		test('AND (simple)', () => {
@@ -599,19 +602,57 @@ describe('nodester Query Language', () => {
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ title: { like: ['book'], notLike: ['book #3', 'book #4'] }});
+			tree.node.addWhere({
+				title: { like: ['book'], notLike: ['book #3', 'book #4'] }
+			});
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
 		});
 
-		test('AND (scattered)', () => {
-			const lexer = new QueryLexer( queryStrings.and_scattered );
+		test('AND (in subincludes #0)', () => {
+			const lexer = new QueryLexer( queryStrings.and_in_subincludes_0 );
 			const result = lexer.query;
 
 			const tree = new ModelsTree();
-			tree.include('avatar');
-			tree.node.addWhere({ name: { like: ['John'], notLike: ['Drake'] }});
+			tree.include('comments').use('comments');
+			tree.node.addWhere({
+				text: { like: ['hi'], notLike: ['hi!'] }
+			});
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('AND (in subincludes #1)', () => {
+			const lexer = new QueryLexer( queryStrings.and_in_subincludes_1 );
+			const result = lexer.query;
+
+			const tree = new ModelsTree();
+			tree.node.addWhere({
+				id: ["4"]
+			});
+			tree.include('comments').use('comments');
+			tree.node.addWhere({
+				text: { like: ['hi'], notLike: ['hi!'] }
+			});
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('AND (in subincludes #2)', () => {
+			const lexer = new QueryLexer( queryStrings.and_in_subincludes_2 );
+			const result = lexer.query;
+
+			const tree = new ModelsTree();
+			tree.node.addWhere({
+				title: { like: ['book'], notLike: ['book #3'] }
+			});
+			tree.include('comments').use('comments');
+			tree.node.addWhere({
+				text: { like: ['hi'], notLike: ['hi!'] }
+			});
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
