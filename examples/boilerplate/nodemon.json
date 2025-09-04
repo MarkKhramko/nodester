@@ -1,0 +1,9 @@
+{
+	"verbose": true,
+	"ignore": [
+		"public/", 
+		"storage/",
+		"README.md"
+	],
+	"exec": "babel-node ./src/app/app.js"
+}
