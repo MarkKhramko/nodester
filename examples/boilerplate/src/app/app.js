@@ -13,10 +13,8 @@ const app = new nodester({ title: APP_CONFIGS.TITLE });
 const { initDatabaseSync } = require('#db/init');
 const dbConnection = initDatabaseSync();
 
-// Route the app:
-const {
-	routeTheApp
-} = require('#routing');
+// #routing module is responsible for setting up the application's routes.
+const { routeTheApp } = require('#routing');
 
 // Services:
 // const Redis = require('#services/redis');
@@ -34,6 +32,15 @@ app.beforeStart(async () => {
 });
 
 
-app.listen(SERVER_CONFIGS.PORT, function() {
+app.listen(SERVER_CONFIGS.PORT, () => {
 	console.info('listening on port', parseInt(app.port));
+});
+
+// Gracefully shut down:
+process.once('SIGTERM', () => {
+	app.stop(() => {
+		const pid = process.pid;
+		console.info('Process', pid, 'terminated\n');
+		process.exit(0);
+	});
 });
