@@ -6,4 +6,5 @@ docs/
 examples/
 
 # Files
+.github/
 Readme.md
