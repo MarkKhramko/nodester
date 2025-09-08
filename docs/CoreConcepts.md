@@ -1,19 +1,26 @@
 # Core concepts | nodester
 
-## [Model](#model)-[Facade](#facade)-[Controller](#controller)
+## Dataflow
+
+When a request enters a `nodester` application, it flows through several layers.  
+Each layer has a single responsibility and hands off to the next:
+
+**Request flow:**
+
+[Client](#client)→[Router](#router)→[Controller](#controller)→[Facade](#facade)→[Model](#model)
 
 
 ## Client
-Client is an entity that interacts with your application using HTTP or any other request methods.
+**Client** is an entity that interacts with your application using HTTP or any other request methods.
 
+---
 
 ## Controller
-Controller is a gatekeeper to a [Facade](#facade).
+**Controller** acts as a gatekeeper to a [Facade](#facade).
+It manages or directs the flow of data between the [Client](#client) and the [Facade](#facade).
 
-It manages or directs the flow of data between the [Client](#client) and a [Facade](#facade).
 
-
-Example of the **Controller** which has methods
+### Example of the **Controller** which has methods
 ```js
 getOne(req, res)
 getMany(req, res)
@@ -22,14 +29,13 @@ updateOne(req, res)
 deleteOne(req, res)
 ```
 
-
 ```js
 const {
   withDefaultCRUD,
   withDefaultErrorProcessing
 } = require('nodester/controllers/mixins');
 
-const countriesFacade = require('#facades/countries');
+const countriesFacade = require(<path_to_countries_facade/>);
 
 
 module.exports = function CountriesController() {
@@ -38,15 +44,15 @@ module.exports = function CountriesController() {
   });
   withDefaultErrorProcessing(this);
 }
-
 ```
 
+---
 
 ## Facade
-Facade is a wrapper around model.
+**Facade** is a wrapper around model.
 
 
-Example of the **Facade** which has methods
+### Example of the **Facade** which has methods
 ```js
 getOne(params)
 getMany(params)
@@ -54,7 +60,6 @@ createOne(params)
 updateOne(params)
 deleteOne(params)
 ```
-
 
 ```js
 const {
@@ -72,13 +77,15 @@ module.exports = function CountriesFacade() {
 }
 ```
 
+---
 
 ## Filter
-[Filter](./Filter.md) is a set of rules on how to process [Client's](#client) input.
+[Filter](./Filter.md) is a set of rules that define how to process [Client's](#client) input.
 
+---
 
 ## Model
-Model is a high-level definition of a database table.
+**Model** is a high-level definition of a database table.
 
 ```js
 // ORM.
@@ -128,15 +135,18 @@ city.associate = ({ City, ...models }) => {
 module.exports = city;
 ```
 
+---
 
 ## Markers
-Marker is a functional condition that returns `true | false`, based on data in request/response.
+**Marker** is a functional condition that returns `true` or `false`, based on data in request/response.
 
 Markers are more powerful indicators than simple route definitions, as any parameter in request/response can be used.
 
-For example: our application has 2 domains:
-`admin.awesomeapp.com`
-`api.awesomeapp.com`
+**Example:**
+
+Our application has 2 domains:
+- `admin.awesomeapp.com`
+- `api.awesomeapp.com`
 
 You add markers and handlers specifically for those domains:
 
@@ -155,11 +165,12 @@ app.only('ADMIN').use(<handler/>);
 app.only('API').use(<handler/>);
 ```
 
-[More examples →](Markers.md)
+[More examples →](./Marker.md)
 
+---
 
 ## Router
-Router is a built-in middleware.
+**Router** is a built-in middleware.
 
 ```js
 const Router = require('nodester/router');
@@ -167,15 +178,24 @@ const Router = require('nodester/router');
 const controllersPath = <path_to_controllers_directory/>;
 const router = new Router({ controllersPath });
 
-router.add.route('get /books', function(req, res) { ... } );
+router.add.route(
+  'get /books',
+  function(req, res) { ... }
+);
 // Or:
-router.add.route('get /books', { controlledBy: 'BooksController.getMany' } );
-router.add.route('get /books/:id', { controlledBy: 'BooksController.getOne' } );
+router.add.route(
+  'get /books',
+  { controlledBy: 'BooksController.getMany' }
+);
+router.add.route(
+  'get /books/:id',
+  { controlledBy: 'BooksController.getOne' }
+);
 ```
 
 ### Middleware for a specific route
 
-You can add custom middleware which will run when a specific route is requested.
+You can add custom middleware that runs when a specific route is requested.
 
 ```js
 const Router = require('nodester/router');
@@ -183,29 +203,35 @@ const Router = require('nodester/router');
 const controllersPath = <path_to_controllers_directory/>;
 const router = new Router({ controllersPath });
 
-const subscriptionPass = require('#middlewares/subscriptionPass');
+const subscriptionPass = require(<path_to_subscription_middleware/>);
 
-router.add.route('get /books', {
-  before: subscriptionPass,
-  controlledBy: 'BooksController.getMany'
-});
+router.add.route(
+  'get /books',
+  {
+    before: subscriptionPass,
+    controlledBy: 'BooksController.getMany'
+  }
+);
 ```
 
 You can also provide an array of middlewares:
 
 ```js
-const middleware1 = require('...');
-const middleware2 = require('...');
+const middleware1 = require(<path_to_middleware1_definition/>);
+const middleware2 = require(<path_to_middleware2_definition/>);
 
-router.add.route('get /books', {
-  before: [ middleware1, middleware2 ],
-  controlledBy: 'BooksController.getMany'
-});
+router.add.route(
+  'get /books',
+  {
+    before: [ middleware1, middleware2 ],
+    controlledBy: 'BooksController.getMany'
+  }
+);
 ```
 
 ### Filters for specific routes
 
-Set specific [Filter](#Filter) middleware before request hits [Controller](#controller):
+Set specific [Filter](#Filter) middleware before request hits the [Controller](#controller):
 
 ```js
 const Filter = require('nodester/filter');
@@ -234,10 +260,13 @@ function cityFilter(req, res, next) {
 
 ...
 
-router.add.route('get /cities', { 
-  before: cityFilter,
-  controlledBy: 'CitiesController.getMany'
-});
+router.add.route(
+  'get /cities',
+  { 
+    before: cityFilter,
+    controlledBy: 'CitiesController.getMany'
+  }
+);
 ```
 
 ### Using Router in the app
@@ -250,9 +279,10 @@ const app = new nodester();
 app.use(router());
 ```
 
+---
 
 ## Provider
-Provider manages interactions between application and other APIs.
+**Provider** manages interactions between application and other APIs.
 Other APIs include:
 - Third-party APIs;
 - API of node_modules;
@@ -260,7 +290,7 @@ Other APIs include:
 
 
 ## Util
-Util is a self-sufficient code snippet.
+**Util** is a self-sufficient code snippet.
 
 You can find all available utils under `nodester/utils`.
 
