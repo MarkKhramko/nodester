@@ -9,14 +9,13 @@ const {
 // Configs.
 const PORT = 8100;
 
-// Our lib.
-const Nodester = require('../lib/application');
+const nodester = require('nodester');
 
 
 describe('nodester application', () => {
 
 	// Init.
-	const app = new Nodester();
+	const app = new nodester();
 	it('construct', () => {
 		expect(app).toBeDefined();
 	});
