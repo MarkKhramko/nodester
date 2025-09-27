@@ -43,6 +43,7 @@
     "./http/codes": "./lib/http/codes/index.js",
     "./http/codes/descriptions": "./lib/http/codes/descriptions.js",
     "./http/codes/symbols": "./lib/http/codes/symbols.js",
+    "./http/methods": "./lib/http/methods/index.js",
 
     "./loggers/console": "./lib/loggers/console.js",
     "./loggers/dev": "./lib/loggers/dev.js",
