@@ -1,6 +1,6 @@
 {
   "name": "nodester",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "description": "A versatile REST framework for Node.js",
   "directories": {
     "docs": "docs",
@@ -16,6 +16,7 @@
     "./body/extract": "./lib/body/extract.js",
 
     "./constants/ErrorCodes": "./lib/constants/ErrorCodes.js",
+    "./constants/FileExtensions": "./lib/constants/FileExtensions.js",
 
     "./controllers/methods": "./lib/controllers/methods/index.js",
     "./controllers/mixins": "./lib/controllers/mixins/index.js",
@@ -78,7 +79,6 @@
   "dependencies": {
     "@js-temporal/polyfill": "^0.4.3",
     "body-parser": "^1.20.2",
-    "common-js-file-extensions": "^1.0.4",
     "cookie": "^1.0.0",
     "cookie-signature": "^1.2.0",
     "debug": "^4.3.4",
