@@ -1,6 +1,6 @@
 {
   "name": "nodester",
-  "version": "0.6.7",
+  "version": "0.6.71",
   "description": "A versatile REST framework for Node.js",
   "directories": {
     "docs": "docs",
