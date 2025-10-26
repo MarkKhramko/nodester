@@ -29,6 +29,12 @@ npm install -S nodester
 
 ```shell
 npx degit https://github.com/MarkKhramko/nodester/examples/boilerplate my-app
+
+cd my-app
+
+npm i
+
+npm run bootstrap
 ```
 
 
