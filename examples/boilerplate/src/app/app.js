@@ -1,3 +1,5 @@
+require(process.cwd() + '/alias.config');
+
 // Info about current and allowed environments.
 const ENVIRONMENTS = require('#configs/environments');
 // Various configs:

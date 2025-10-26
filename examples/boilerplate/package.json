@@ -4,12 +4,15 @@
   "description": "Ready-to-use nodester-based project boilerplate.",
   "author": "Mark Khramko <markkhramko@gmail.com>",
   "scripts": {
-    "start": "babel-node ./src/app/app.js",
+    "start": "node ./src/app/app.js",
     "dev": "nodemon",
-    "production": "NODE_ENV=production babel-node ./src/app/app.js",
-    "bootstrap": "babel-node ./bootstrap/init/index.js",
-    "db:migrate": "babel-node ./bootstrap/migrator/index.js $force",
-    "db:seed": "babel-node ./bootstrap/seeder/index.js $force",
+    "production": "NODE_ENV=production node ./src/app/app.js",
+
+    "bootstrap": "node ./bootstrap/init/index.js",
+
+    "db:migrate": "node ./bootstrap/migrator/index.js $force",
+    "db:seed": "node ./bootstrap/seeder/index.js $force",
+
     "tools:generate": "nodester-tools -g"
   },
   "dependencies": {
@@ -17,12 +20,8 @@
     "nodester": "^0.6.6"
   },
   "devDependencies": {
-    "@babel/cli": "^7.23.0",
-    "@babel/core": "^7.23.3",
-    "@babel/node": "^7.22.19",
-    "@babel/preset-env": "^7.23.3",
-    "babel-plugin-module-resolver": "^5.0.0",
     "cross-env": "^7.0.3",
+    "module-alias": "^2.2.3",
     "nodemon": "^3.0.1",
     "nodester-tools": "^0.0.1"
   },

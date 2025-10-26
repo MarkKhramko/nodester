@@ -1,5 +1,7 @@
+require(process.cwd() + '/alias.config');
+
 // Import config from .env file.
-require('dotenv').config();
+require('#configs/environments');
 
 const step1 = require('./steps/1');
 const step2 = require('./steps/2');
