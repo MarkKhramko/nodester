@@ -25,6 +25,13 @@ npm install -S nodester
 ```
 
 
+## Or kickstart your project with the boilerplate
+
+```shell
+npx degit https://github.com/MarkKhramko/nodester/examples/boilerplate my-app
+```
+
+
 ## Table of Contents
 
 - [Usage](#usage)
