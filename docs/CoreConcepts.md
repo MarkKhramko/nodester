@@ -242,7 +242,7 @@ const City = require('#models/City');
 const filter = new Filter(City, {
   attributes: [
     'id',
-    'country_id'
+    'country_id',
     'name',
   ],
   statics: {
@@ -250,7 +250,7 @@ const filter = new Filter(City, {
       country_id: 17
     },
   }
-};
+});
 
 function cityFilter(req, res, next) {
   const resultQuery = traverse(req.nquery, filter);

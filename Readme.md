@@ -12,7 +12,7 @@
 The main reason of nodester's existence is the [nodester Query Language (NQL) →](docs/nql/Introduction.md), an extension of standard REST API syntax, it lets you craft complex queries with hierarchical associations.
 
 Building an application which allows users to build their own REST queries raises huge security concerns.
-That's why **nodester** was not developped as a middleware. It's a framework equipped with a set of technologies enabling you to fully customize the request-response flow down to the specific user and a database column.
+That's why **nodester** was not developed as a middleware. It's a framework equipped with a set of technologies enabling you to fully customize the request-response flow down to the specific user and a database column.
 Check out [core concepts documentation →](docs/CoreConcepts.md) for more info.
 
 
@@ -95,7 +95,7 @@ process.once('SIGTERM', () => {
 The true strength of nodester lies in its query language. Serving as an extension of standard REST API syntax, it brings many aspects of SQL into REST requests, providing developers with a simple yet powerful tool for expressive and efficient data querying.
 
 Read more about it in the documentation:
-[NQL documentaion →](docs/nql/Introduction.md)
+[NQL documentation →](docs/nql/Introduction.md)
 
 
 ### Database

@@ -18,7 +18,7 @@ app.listen(8080, function() {
 const nodester = require('nodester');
 
 const { buildConnection } = require('nodester/database/connection');
-// Standard sequilize configuration:
+// Standard sequelize configuration:
 // https://sequelize.org/docs/v6/getting-started/#connecting-to-a-database
 const db = buildConnection({
   host: ...,

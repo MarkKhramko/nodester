@@ -28,7 +28,7 @@ const filter = new Filter(Country, {
     cities: new Filter(City, {
       attributes: [
         'id',
-        'country_id'
+        'country_id',
         'name',
       ],
       includes: {

@@ -26,7 +26,7 @@ Let's imagine you created a database with the following structure:
   ┣ language_id
   ┗ country_id
 
- • language_to_city_relations
+• language_to_city_relations
   ┣ language_id
   ┗ city_id
 ```
@@ -56,7 +56,7 @@ Will output you:
     "countries": [
       {
         "id": 17,
-        "name": 'Belgium'
+        "name": "Belgium"
       }
     ],
     "count": 1
@@ -79,7 +79,7 @@ Will output you:
   "content": {
     "country": {
       "id": 17,
-      "name": 'Belgium'
+      "name": "Belgium"
     },
     "count": 1
   },

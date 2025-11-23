@@ -20,7 +20,7 @@ app.use(router);
 
 ## Usage with a Controller
 
-Let's imagine you created a standard [nodester controller](CoreConcepts.md#controller) named `Articles.controller.js` in the `/src/app/controllers` folder. By passing the `controllersPath` prop during router initialization, the controller's methods will be parsed for your convinient use:
+Let's imagine you created a standard [nodester controller](CoreConcepts.md#controller) named `Articles.controller.js` in the `/src/app/controllers` folder. By passing the `controllersPath` prop during router initialization, the controller's methods will be parsed for your convenient use:
 
 ```js
 const Router = require('nodester/router');
@@ -64,7 +64,7 @@ app.use(router);
 
 ## Usage with a Provider
 
-Let's imagine you created a provider named `Auth.provider.js` in the `/src/app/providers` folder. By passing the `providersPath` prop during router initialization, the provider's methods will be parsed for your convinient use:
+Let's imagine you created a provider named `Auth.provider.js` in the `/src/app/providers` folder. By passing the `providersPath` prop during router initialization, the provider's methods will be parsed for your convenient use:
 
 ```js
 const Router = require('nodester/router');
