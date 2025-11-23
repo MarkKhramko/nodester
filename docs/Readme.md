@@ -7,6 +7,11 @@
 - [Filter →](Filter.md)
 - [Marker →](Marker.md)
 - [nodester Query Language (NQL) →](nql/Introduction.md)
+  - [Syntax →](nql/Syntax.md)
+  - [Parameters →](nql/Parameters.md)
+  - [Subqueries →](nql/Subqueries.md)
+  - [Operators →](nql/Operators.md)
+  - [Functions →](nql/Functions.md)
 
 
 ## Copyright

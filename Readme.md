@@ -13,6 +13,23 @@ The main reason of nodester's existence is the [nodester Query Language (NQL) �
 
 Building an application which allows users to build their own REST queries raises huge security concerns.
 That's why **nodester** was not developed as a middleware. It's a framework equipped with a set of technologies enabling you to fully customize the request-response flow down to the specific user and a database column.
+
+## Quick Example
+
+With NQL, a single endpoint can handle complex queries:
+
+```http
+GET /api/v1/countries?includes=cities(limit=5&order_by=population&order=desc).areas&name=like(Bel)&fn=count(cities)
+```
+
+This query:
+- Filters countries by name containing "Bel"
+- Includes cities (limited to 5, ordered by population)
+- Includes areas for each city
+- Counts total cities per country
+
+All with proper security through [Filters →](docs/Filter.md) that control what users can query.
+
 Check out [core concepts documentation →](docs/CoreConcepts.md) for more info.
 
 
@@ -37,9 +54,22 @@ npm i
 npm run bootstrap
 ```
 
+## Features
+
+- **🔍 Powerful Query Language (NQL)**: Extend REST with SQL-like querying capabilities
+- **🔒 Security First**: Fine-grained control over what users can query through Filters
+- **🌳 Hierarchical Associations**: Query nested relationships with ease
+- **⚡ Built on Sequelize**: Leverage the power of Sequelize ORM
+- **🎯 Flexible Architecture**: Controller → Facade → Model pattern for clean separation
+- **🛡️ Request Validation**: Automatic validation and bounds checking
+- **📊 Aggregate Functions**: Built-in support for count, avg, and more
+- **🔧 Extensible**: Easy to extend and customize for your needs
 
 ## Table of Contents
 
+- [Quick Example](#quick-example)
+- [Features](#features)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Documentation](#documentation)
 - [Philosophy](#philosophy)
@@ -94,8 +124,13 @@ process.once('SIGTERM', () => {
 ### Queries & querying - nodester Query Language (NQL)
 The true strength of nodester lies in its query language. Serving as an extension of standard REST API syntax, it brings many aspects of SQL into REST requests, providing developers with a simple yet powerful tool for expressive and efficient data querying.
 
-Read more about it in the documentation:
-[NQL documentation →](docs/nql/Introduction.md)
+**NQL Documentation:**
+- [Introduction →](docs/nql/Introduction.md) - Get started with NQL
+- [Syntax →](docs/nql/Syntax.md) - Understand query syntax and parsing
+- [Parameters →](docs/nql/Parameters.md) - Complete parameter reference
+- [Subqueries →](docs/nql/Subqueries.md) - Advanced nested queries
+- [Operators →](docs/nql/Operators.md) - Filtering operators (like, in, gt, etc.)
+- [Functions →](docs/nql/Functions.md) - Aggregate functions (count, avg)
 
 
 ### Database
@@ -122,7 +157,7 @@ The Philosophy of `nodester` is to provide a developer with a tool that can buil
 
 ### Goal
 
-The goal of `nodester` is to be a robust and flexible framework that makes development in iteratations easy, while laying the foundation for seamless scalability in the future.
+The goal of `nodester` is to be a robust and flexible framework that makes development in iterations easy, while laying the foundation for seamless scalability in the future.
 
 
 ## License
