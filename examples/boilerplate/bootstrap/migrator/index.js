@@ -28,7 +28,7 @@ void (async function start() {
 		// "force" is 3rd argument.
 		// (Set 'force' to true if you want to rewrite database.)
 		const force = (args[2] === 'true' || args[2] === '1');
-		
+
 		await migrate(db, force);
 		console.info('✅ All models migrated!','\n');
 
@@ -37,6 +37,10 @@ void (async function start() {
 		const { commands } = await parseSQLFileContents(`${ __dirname }/sql/after_migration.sql`);
 		for (let i=0; i < commands.length; i++) {
 			const command = commands[i];
+
+			// Skip comments.
+			if (command[0] === '#') continue;
+
 			await db.query(command);
 		}
 
