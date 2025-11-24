@@ -1,7 +1,10 @@
+require(process.cwd() + '/alias.config');
 // Import config from .env file.
 require('dotenv').config();
+
 // Models to migrate.
 require('./models');
+
 // Connection to database
 const db = require('#db');
 
