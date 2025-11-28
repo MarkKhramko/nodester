@@ -1,0 +1,10 @@
+{
+	"verbose": true,
+	"ignore": [
+		"public/",
+		"storage/",
+		"tests/",
+		"README.md"
+	],
+	"exec": "node ./src/app/app.js"
+}
