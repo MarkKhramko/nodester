@@ -12,16 +12,18 @@ const {
 
 void async function testAPI() {
 
-	let refresh_token;
-
-	await request({
+	const loginRequestOptions = {
 		url: URL('/auth/token'),
 		method: 'POST',
 		data: {
 			email: 'user@example.com',
 			password: 'ppXjDFb$FWjz'
 		}
-	})
+	}
+
+	let refresh_token;
+
+	await request(loginRequestOptions)
 	.then(([res, testPassed]) => {
 		// 1) Body must exist:
 		if (!res.data?.content) {
@@ -101,6 +103,36 @@ void async function testAPI() {
 		// 2) Validate fields inside content:
 		if (typeof content.revoked !== "boolean" || !content?.revoked) {
 			throw new WrongApiResponseContent("revoked key is missing or invalid", res);
+		}
+
+		testPassed();
+	});
+
+	// Get another token for logout test:
+	await request(loginRequestOptions)
+	.then(([res]) => {
+		const { content } = res.data;
+		refresh_token = content.refresh_token;
+	})
+
+	await request({
+		url: URL('/auth/logout'),
+		method: 'POST',
+		data: {
+			refresh_token
+		}
+	})
+	.then(([res, testPassed]) => {
+		// 1) Body must exist:
+		if (!res.data?.content) {
+			throw new ApiTestError("API returned a corrupted response", res);
+		}
+
+		const { content } = res.data;
+		
+		// 2) Validate fields inside content:
+		if (typeof content.logged_out !== "boolean" || !content?.logged_out) {
+			throw new WrongApiResponseContent("logged_out key is missing or invalid", res);
 		}
 
 		testPassed();
