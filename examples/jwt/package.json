@@ -18,7 +18,7 @@
     "axios": "^1.13.2",
     "dotenv": "^16.3.1",
     "jsonwebtoken": "^9.0.2",
-    "nodester": "^0.6.6"
+    "nodester": "^0.6.72"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
