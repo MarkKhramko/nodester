@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "dotenv": "^16.3.1",
-    "nodester": "^0.6.6"
+    "nodester": "^0.6.72"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
