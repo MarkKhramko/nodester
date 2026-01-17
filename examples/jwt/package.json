@@ -25,7 +25,7 @@
     "jest": "^30.2.0",
     "module-alias": "^2.2.3",
     "nodemon": "^3.0.1",
-    "nodester-tools": "^0.0.2"
+    "nodester-tools": "^0.0.31"
   },
   "engines": {
     "node": "^20.0.0"
