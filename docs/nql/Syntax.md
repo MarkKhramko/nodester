@@ -118,6 +118,12 @@ NQL automatically handles URL-encoded characters. Special characters in values s
 ?name=like(New%20York)  // Searches for "New York"
 ```
 
+**International Characters:**
+
+NQL supports UTF-8 characters including Cyrillic, diacritics, Chinese, and emoji. See the full documentation:
+[Decoder documentation →](Decoder.md)
+
+
 ## Query Parsing Flow
 
 1. **Decode**: URL-encoded characters are decoded
