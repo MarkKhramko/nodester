@@ -260,6 +260,12 @@ describe('nodester Query Language', () => {
 
 			// Complex subincludes query, "+" syntaxis.
 			'includes=comments(order=desc).users+likes(order=rand&order_by=position)&id=1000',
+
+			// Complex subincludes query, "+" syntaxis with include.
+			'includes=comments(order=desc).users+likes(order=rand&order_by=position).reviews&id=1000',
+
+			// Complex subincludes query, "+" syntaxis with double include.
+			'includes=comments(order=desc).users+likes(order=rand&order_by=position).reviews.admin&id=1000',
 		];
 
 		test('Simple subinclude', async () => {
@@ -321,7 +327,25 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Complex subincludes query, "+" syntaxis', async () => {
-			const lexer = new QueryLexer( queryStrings[4] );
+			const lexer = new QueryLexer(queryStrings[4]);
+			const result = await lexer.parse();
+
+
+			const tree = new ModelsTree();
+			tree.include('comments').use('comments');
+			tree.node.addWhere({ id: ['1000'] });
+			tree.node.order = 'desc';
+			tree.include('users');
+			tree.include('likes') && tree.use('likes');
+			tree.node.order = 'rand';
+			tree.node.order_by = 'position';
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('Complex subincludes query, "+" syntaxis with include', async () => {
+			const lexer = new QueryLexer(queryStrings[5]);
 			const result = await lexer.parse();
 
 
@@ -333,6 +357,29 @@ describe('nodester Query Language', () => {
 			tree.include('likes') && tree.use('likes');
 			tree.node.order = 'rand';
 			tree.node.order_by = 'position';
+			tree.include('reviews');
+			tree.up();
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+		});
+
+		test('Complex subincludes query, "+" syntaxis with double include', async () => {
+			const lexer = new QueryLexer(queryStrings[6]);
+			const result = await lexer.parse();
+
+
+			const tree = new ModelsTree();
+			tree.node.addWhere({ id: ['1000'] });
+			tree.include('comments').use('comments');
+			tree.node.order = 'desc';
+			tree.include('users');
+			tree.include('likes') && tree.use('likes');
+			tree.node.order = 'rand';
+			tree.node.order_by = 'position';
+			tree.include('reviews') && tree.use('reviews');
+			tree.include('admin')
+			tree.up();
 			tree.up();
 			const expected = tree.root.toObject();
 
