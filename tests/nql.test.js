@@ -761,4 +761,46 @@ describe('nodester Query Language', () => {
 			expect(result).toMatchObject(expected);
 		});
 	});
+
+	describe('root-filtering', () => {
+		const queryStrings = {
+			simple: 'includes=order(^is_filled=1)',
+			complex: 'includes=product.order(^is_filled=1)+photos(limit=5)',
+		}
+
+		test('Simple root filtering with ^', async () => {
+			const lexer = new QueryLexer(queryStrings.simple);
+			const result = await lexer.parse();
+
+			const tree = new ModelsTree();
+			tree.include('order').use('order');
+			tree.node.addWhere({ is_filled: ['1'] });
+			tree.node.markAsRequired();
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+			expect(result.includes[0].required).toBe(true);
+		});
+
+		test('Complex nested root filtering with ^', async () => {
+			const lexer = new QueryLexer(queryStrings.complex);
+			const result = await lexer.parse();
+
+			const tree = new ModelsTree();
+			tree.include('product').use('product');
+			tree.include('order').use('order');
+			tree.node.addWhere({ is_filled: ['1'] });
+			tree.node.markAsRequired();
+			tree.up();
+			tree.up();
+			tree.include('photos').use('photos');
+			tree.node.limit = 5;
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+			expect(result.includes[0].required).toBe(true);
+			expect(result.includes[0].includes[0].required).toBe(true);
+			expect(result.includes[1].required).toBe(false);
+		});
+	});
 });

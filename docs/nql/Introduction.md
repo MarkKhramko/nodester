@@ -392,6 +392,7 @@ NQL documentation is organized into several topics:
 ### Query Features
 - **[Operators →](Operators.md)** - Filtering operators (like, in, gt, etc.)
 - **[Functions →](Functions.md)** - Aggregate functions (count, avg, etc.)
+- **[Root Filtering →](RootFiltering.md)** - Filter root models by included models (INNER JOIN)
 
 ## Operators
 

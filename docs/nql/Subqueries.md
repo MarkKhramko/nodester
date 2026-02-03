@@ -153,21 +153,7 @@ example.com/api/v1/users?includes=posts(status=published&limit=10&order_by=creat
 
 `GET` request:
 ```
-example.com/api/v1/countries?includes=
-  cities(
-    id=gt(100)&
-    limit=5&
-    order_by=population&
-    order=desc
-  ).
-  areas(
-    limit=3&
-    order_by=name
-  )+
-  languages(
-    code=or(en,fr)&
-    limit=2
-  )
+example.com/api/v1/countries?includes=cities(id=gt(100)&limit=5&order_by=population&order=desc).areas(limit=3&order_by=name)+languages(code=or(en,fr)&limit=2)
 ```
 
 ### Multiple Horizontal Includes
@@ -198,8 +184,8 @@ example.com/api/v1/posts?includes=comments(limit=10),likes(limit=5),shares(limit
 ### Pagination Pattern
 ```
 ?includes=comments(limit=20&skip=0)
-?includes=comments(limit=20&skip=20)  // Page 2
-?includes=comments(limit=20&skip=40)    // Page 3
+?includes=comments(limit=20&skip=20) // Page 2
+?includes=comments(limit=20&skip=40) // Page 3
 ```
 
 ### Recent Items Pattern

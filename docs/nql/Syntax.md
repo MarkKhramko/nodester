@@ -26,6 +26,7 @@ NQL uses special characters to express different query operations:
 | `,` | Horizontal includes or array values | `includes=users,posts` or `id=[1,2,3]` |
 | `.` | Vertical includes (nested associations) | `includes=users.posts` |
 | `+` | Horizontal include in subquery | `includes=users.posts+comments` |
+| `^` | Root filtering (INNER JOIN) | `includes=order(^is_filled=1)` |
 | `(` | Starts operator, function, or subquery | `name=like(test)` or `includes=users(id=5)` |
 | `)` | Ends operator, function, or subquery | `name=like(test))` or `includes=users(id=5))` |
 | `[` | Starts array (for `in` operator) | `id=[1,2,3]` |
