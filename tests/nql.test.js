@@ -24,7 +24,7 @@ describe('nodester Query Language', () => {
 		];
 
 		it('Simple where', async () => {
-			const lexer = new QueryLexer( queryStrings[0] );
+			const lexer = new QueryLexer(queryStrings[0]);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
@@ -35,24 +35,24 @@ describe('nodester Query Language', () => {
 		});
 
 		it('Only certain attributes', async () => {
-			const lexer = new QueryLexer( queryStrings[1] );
+			const lexer = new QueryLexer(queryStrings[1]);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
-			tree.node.attributes = [ 'id', 'text' ];
+			tree.node.attributes = ['id', 'text'];
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
 		});
 
 		test('All possible params', async () => {
-			const lexer = new QueryLexer( queryStrings[2] );
+			const lexer = new QueryLexer(queryStrings[2]);
 			const result = await lexer.parse();
 
 
 			const tree = new ModelsTree();
 			tree.node.addWhere({ id: ['10'], position: ['4'] });
-			tree.node.attributes = [ 'id', 'content', 'position', 'created_at' ];
+			tree.node.attributes = ['id', 'content', 'position', 'created_at'];
 			tree.node.limit = 3;
 			tree.node.skip = 10;
 			tree.node.order = 'desc';
@@ -74,20 +74,20 @@ describe('nodester Query Language', () => {
 			'2-horizontals': 'includes=comments,users&id=1000',
 			// 4 horizontals with subquery.
 			'4-horizontals': 'in=categories,replies.users,comments(order_by=position&order=desc),users.avatars',
-			
+
 			// Horizontals queried.
 			'horizontals-queried': 'includes=comments(order=desc),users,likes(order=rand),reposts&id=1000',
 			// Horizontals queried №2.
 			'horizontals-queried-2': 'in=comments(order_by=index&order=asc).users.karma',
 			// Horizontals queried №3.
 			'horizontals-queried-3': 'in=reactions,comments(user_id=gte(4)&skip=10&limit=2).users,likes,reposts',
-			
+
 			// Separated includes.
 			'separated-includes': 'includes=comments(order=rand)&id=7&limit=3&includes=users(a=id,content)',
 		};
 
 		test('Simple includes', async () => {
-			const lexer = new QueryLexer( queryStrings['simple-includes'] );
+			const lexer = new QueryLexer(queryStrings['simple-includes']);
 			const result = await lexer.parse();
 
 
@@ -100,13 +100,13 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Include with all possible params', async () => {
-			const lexer = new QueryLexer( queryStrings['include-with-params'] );
+			const lexer = new QueryLexer(queryStrings['include-with-params']);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
 			tree.include('comments').use('comments');
 			tree.node.addWhere({ id: ['10'], position: ['4'] });
-			tree.node.attributes = [ 'id', 'content', 'position' ];
+			tree.node.attributes = ['id', 'content', 'position'];
 			tree.node.limit = 3;
 			tree.node.skip = 10;
 			tree.node.order = 'desc';
@@ -117,7 +117,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('2 horizontals', async () => {
-			const lexer = new QueryLexer( queryStrings['2-horizontals'] );
+			const lexer = new QueryLexer(queryStrings['2-horizontals']);
 			const result = await lexer.parse();
 
 
@@ -133,7 +133,7 @@ describe('nodester Query Language', () => {
 		test('4 horizontals', async () => {
 			// in=categories,replies.users,comments(order_by=position&order=desc),users.avatars
 
-			const lexer = new QueryLexer( queryStrings['4-horizontals'] );
+			const lexer = new QueryLexer(queryStrings['4-horizontals']);
 			const result = await lexer.parse();
 
 
@@ -162,7 +162,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Horizontals queried', async () => {
-			const lexer = new QueryLexer( queryStrings['horizontals-queried'] );
+			const lexer = new QueryLexer(queryStrings['horizontals-queried']);
 			const result = await lexer.parse();
 
 
@@ -182,7 +182,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Horizontals queried №2', async () => {
-			const lexer = new QueryLexer( queryStrings['horizontals-queried-2'] );
+			const lexer = new QueryLexer(queryStrings['horizontals-queried-2']);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
@@ -200,7 +200,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Horizontals queried №3', async () => {
-			const lexer = new QueryLexer( queryStrings['horizontals-queried-3'] );
+			const lexer = new QueryLexer(queryStrings['horizontals-queried-3']);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
@@ -208,9 +208,9 @@ describe('nodester Query Language', () => {
 
 			tree.include('comments').use('comments');
 			tree.node.addWhere({
-					user_id: {
-						gte: ['4']
-					}
+				user_id: {
+					gte: ['4']
+				}
 			});
 			tree.node.skip = 10;
 			tree.node.limit = 2;
@@ -227,7 +227,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Separated includes"', async () => {
-			const lexer = new QueryLexer( queryStrings['separated-includes'] );
+			const lexer = new QueryLexer(queryStrings['separated-includes']);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
@@ -237,7 +237,7 @@ describe('nodester Query Language', () => {
 			tree.node.order = 'rand';
 			tree.up();
 			tree.include('users').use('users');
-			tree.node.attributes = [ 'id', 'content' ];
+			tree.node.attributes = ['id', 'content'];
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
@@ -269,7 +269,7 @@ describe('nodester Query Language', () => {
 		];
 
 		test('Simple subinclude', async () => {
-			const lexer = new QueryLexer( queryStrings[0] );
+			const lexer = new QueryLexer(queryStrings[0]);
 			const result = await lexer.parse();
 
 
@@ -282,7 +282,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Deep subincludes', async () => {
-			const lexer = new QueryLexer( queryStrings[1] );
+			const lexer = new QueryLexer(queryStrings[1]);
 			const result = await lexer.parse();
 
 
@@ -298,7 +298,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Simple horizontal subinclude, "+" syntaxis"', async () => {
-			const lexer = new QueryLexer( queryStrings[2] );
+			const lexer = new QueryLexer(queryStrings[2]);
 			const result = await lexer.parse();
 
 
@@ -312,7 +312,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Subinclude query', async () => {
-			const lexer = new QueryLexer( queryStrings[3] );
+			const lexer = new QueryLexer(queryStrings[3]);
 			const result = await lexer.parse();
 
 
@@ -396,22 +396,22 @@ describe('nodester Query Language', () => {
 		];
 
 		test('"OR" simple', async () => {
-			const lexer = new QueryLexer( queryStrings[0] );
+			const lexer = new QueryLexer(queryStrings[0]);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ or: [ { index: ['2'] }, { position: ['5'] } ] });
+			tree.node.addWhere({ or: [{ index: ['2'] }, { position: ['5'] }] });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
 		});
 
 		test('"OR" short', async () => {
-			const lexer = new QueryLexer( queryStrings[1] );
+			const lexer = new QueryLexer(queryStrings[1]);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ or: [ { index: ['2'] }, { position: ['5'] } ] });
+			tree.node.addWhere({ or: [{ index: ['2'] }, { position: ['5'] }] });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
@@ -429,7 +429,7 @@ describe('nodester Query Language', () => {
 		];
 
 		test('"NOT" simple', async () => {
-			const lexer = new QueryLexer( queryStrings[0] );
+			const lexer = new QueryLexer(queryStrings[0]);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
@@ -440,7 +440,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('"NOT" short', async () => {
-			const lexer = new QueryLexer( queryStrings[1] );
+			const lexer = new QueryLexer(queryStrings[1]);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
@@ -451,12 +451,12 @@ describe('nodester Query Language', () => {
 		});
 
 		test('"NOT" inside includes', async () => {
-			const lexer = new QueryLexer( queryStrings[2] );
+			const lexer = new QueryLexer(queryStrings[2]);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
 			tree.include('comments').use('comments');
-			tree.node.addWhere({ id: { not: ['7'] }});
+			tree.node.addWhere({ id: { not: ['7'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
@@ -476,33 +476,33 @@ describe('nodester Query Language', () => {
 		];
 
 		test('"Like" simple', async () => {
-			const lexer = new QueryLexer( queryStrings[0] );
+			const lexer = new QueryLexer(queryStrings[0]);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ title: { like: ['some_text'] }});
+			tree.node.addWhere({ title: { like: ['some_text'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
 		});
 
 		test('"NotLike" simple', async () => {
-			const lexer = new QueryLexer( queryStrings[1] );
+			const lexer = new QueryLexer(queryStrings[1]);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ title: { notLike: ['some_text'] }});
+			tree.node.addWhere({ title: { notLike: ['some_text'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
 		});
 
 		test('"NotLike" short', async () => {
-			const lexer = new QueryLexer( queryStrings[2] );
+			const lexer = new QueryLexer(queryStrings[2]);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ title: { notLike: ['some_text'] }});
+			tree.node.addWhere({ title: { notLike: ['some_text'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
@@ -519,23 +519,23 @@ describe('nodester Query Language', () => {
 		];
 
 		test('"IN" simple', async () => {
-			const lexer = new QueryLexer( queryStrings[0] );
+			const lexer = new QueryLexer(queryStrings[0]);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ status: { in: ['REVIEWED', 'ANSWERED'] }});
+			tree.node.addWhere({ status: { in: ['REVIEWED', 'ANSWERED'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
 		});
 
 		test('"IN" and "limit" clause', async () => {
-			const lexer = new QueryLexer( queryStrings[1] );
+			const lexer = new QueryLexer(queryStrings[1]);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
 			tree.node.limit = 3;
-			tree.node.addWhere({ status: { in: ['REVIEWED', 'ANSWERED'] }});
+			tree.node.addWhere({ status: { in: ['REVIEWED', 'ANSWERED'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
@@ -561,62 +561,62 @@ describe('nodester Query Language', () => {
 		];
 
 		test('Greater than', async () => {
-			const lexer = new QueryLexer( queryStrings[0] );
+			const lexer = new QueryLexer(queryStrings[0]);
 			const result = await lexer.parse();
 
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ created_at: { gt: ['2022'] }});
+			tree.node.addWhere({ created_at: { gt: ['2022'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
 		});
 
 		test('Greater than or equal to', async () => {
-			const lexer = new QueryLexer( queryStrings[1] );
+			const lexer = new QueryLexer(queryStrings[1]);
 			const result = await lexer.parse();
 
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ created_at: { gte: ['2023-12-08'] }});
+			tree.node.addWhere({ created_at: { gte: ['2023-12-08'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
 		});
 
 		test('Lower than', async () => {
-			const lexer = new QueryLexer( queryStrings[2] );
+			const lexer = new QueryLexer(queryStrings[2]);
 			const result = await lexer.parse();
 
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ index: { lt: ['10'] }});
+			tree.node.addWhere({ index: { lt: ['10'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
 		});
 
 		test('Lower than or equal to', async () => {
-			const lexer = new QueryLexer( queryStrings[3] );
+			const lexer = new QueryLexer(queryStrings[3]);
 			const result = await lexer.parse();
 
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ index: { lte: ['9'] }});
+			tree.node.addWhere({ index: { lte: ['9'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
 		});
 
 		test('Greater than in subinclude', async () => {
-			const lexer = new QueryLexer( queryStrings[4] );
+			const lexer = new QueryLexer(queryStrings[4]);
 			const result = await lexer.parse();
 
 
 			const tree = new ModelsTree();
 			tree.include('comments').use('comments');
 			tree.include('likes').use('likes');
-			tree.node.addWhere({ index: { gt: ['60'] }});
+			tree.node.addWhere({ index: { gt: ['60'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
@@ -634,18 +634,18 @@ describe('nodester Query Language', () => {
 		}
 
 		test('AND (simple)', async () => {
-			const lexer = new QueryLexer( queryStrings.and_simple );
+			const lexer = new QueryLexer(queryStrings.and_simple);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ id: { gte: ['2'], lt: ['5'] }});
+			tree.node.addWhere({ id: { gte: ['2'], lt: ['5'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
 		});
 
 		test('AND (more OP)', async () => {
-			const lexer = new QueryLexer( queryStrings.and_more_op );
+			const lexer = new QueryLexer(queryStrings.and_more_op);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
@@ -658,7 +658,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('AND (in subincludes #0)', async () => {
-			const lexer = new QueryLexer( queryStrings.and_in_subincludes_0 );
+			const lexer = new QueryLexer(queryStrings.and_in_subincludes_0);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
@@ -672,7 +672,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('AND (in subincludes #1)', async () => {
-			const lexer = new QueryLexer( queryStrings.and_in_subincludes_1 );
+			const lexer = new QueryLexer(queryStrings.and_in_subincludes_1);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
@@ -689,7 +689,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('AND (in subincludes #2)', async () => {
-			const lexer = new QueryLexer( queryStrings.and_in_subincludes_2 );
+			const lexer = new QueryLexer(queryStrings.and_in_subincludes_2);
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
@@ -716,7 +716,7 @@ describe('nodester Query Language', () => {
 		}
 
 		test('Count (full key name)', async () => {
-			const lexer = new QueryLexer( queryStrings.count_long );
+			const lexer = new QueryLexer(queryStrings.count_long);
 			const result = await lexer.parse();
 
 
@@ -731,7 +731,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Count (short key name)', async () => {
-			const lexer = new QueryLexer( queryStrings.count_long );
+			const lexer = new QueryLexer(queryStrings.count_long);
 			const result = await lexer.parse();
 
 
@@ -746,7 +746,7 @@ describe('nodester Query Language', () => {
 		});
 
 		test('Count and includes', async () => {
-			const lexer = new QueryLexer( queryStrings.count_and_includes );
+			const lexer = new QueryLexer(queryStrings.count_and_includes);
 			const result = await lexer.parse();
 
 
