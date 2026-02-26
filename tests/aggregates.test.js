@@ -164,7 +164,7 @@ describe('nodester Aggregates', () => {
 
             expect(result.attributes).toContainEqual([
                 { fn: 'SUM', col: { col: 'price' } },
-                'posts_sum_price'
+                'price_sum'
             ]);
         });
 
