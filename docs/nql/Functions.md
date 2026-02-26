@@ -239,6 +239,37 @@ Functions work seamlessly with `attributes`, `limit`, `order_by`, and other NQL 
 **Example:**
 `example.com/api/v1/countries?a=id,name&fn=count(cities)&limit=10&oby=name`
 
+## Grouping Results
+
+You can group your aggregate results by one or more attributes using the `group_by` parameter.
+
+**Example:**
+`GET /api/v1/products?fn=sum(price)&group_by=category_id`
+
+When `group_by` is used with aggregate functions, nodester automatically:
+1. Adds the grouped attributes to the response.
+2. Excludes all other model attributes (unless explicitly requested via `a=`) to ensure valid SQL.
+
+**Multiple grouping fields:**
+`GET /api/v1/products?fn=count()&group_by=category_id,brand_id`
+
+**Output Example:**
+```js
+{
+  "content": {
+    "products": [
+      {
+        "category_id": 5,
+        "brand_id": 10,
+        "products_count": 150
+      },
+      ...
+    ]
+  },
+  "error": null
+}
+```
+
 ## Best Practices
 
 1. **Enable functions in Filter**: Aggregates are disabled by default for security.

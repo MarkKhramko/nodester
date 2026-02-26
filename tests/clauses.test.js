@@ -71,6 +71,7 @@ describe('nodester Clauses', () => {
 			tableAttributes: {
 				id: {},
 				title: {},
+				price: {},
 				category_id: {},
 				brand_id: {},
 				created_at: {}
@@ -85,7 +86,8 @@ describe('nodester Clauses', () => {
 			model: mockModel,
 			attributes: ['id', 'title', 'category_id', 'brand_id', 'created_at'],
 			functions: {
-				count: true
+				count: true,
+				sum: true
 			},
 			clauses: ['group_by', 'order', 'order_by', 'limit', 'skip'],
 			bounds: {
@@ -138,6 +140,24 @@ describe('nodester Clauses', () => {
 
 			expect(result.limit).toBe(10);
 			expect(result.offset).toBe(5);
+		});
+
+		it('maps group_by with functions (aggregates)', () => {
+			const queryNode = {
+				functions: [{ fn: 'sum', args: ['price'] }],
+				group_by: 'category_id'
+			};
+			const result = traverse(queryNode, mockFilter, mockModel);
+
+			expect(result.group).toBe('category_id');
+			expect(result.attributes).toContain('category_id');
+			expect(result.attributes).toContainEqual([
+				{ fn: 'SUM', col: { col: 'price' } },
+				'price_sum'
+			]);
+			// Ensure default attributes are excluded in aggregate+group queries:
+			expect(result.attributes).not.toContain('id');
+			expect(result.attributes).not.toContain('title');
 		});
 
 		it('enforces bounds on limit and skip', () => {
