@@ -1,6 +1,6 @@
 # Functions | nodester Query Language (NQL)
 
-Functions allow you to perform aggregate operations on related data. They extend your queries with SQL-like aggregate functions.
+Functions allow you to perform aggregate operations on your data. They extend your queries with SQL aggregate functions that can operate on the root model or associated models.
 
 ## Using Functions
 
@@ -14,21 +14,30 @@ Functions are called using the `functions` parameter or its short alias `fn`.
 
 **Multiple functions:**
 ```
-?functions=count(cities),avg(population)
+?fn=count(cities),avg(population)
 ```
 
 ## Available Functions
 
+| Function | Purpose | Example |
+|----------|---------|---------|
+| `count()` | Counts records | `fn=count()` or `fn=count(comments)` |
+| `sum()` | Calculates total sum | `fn=sum(price)` or `fn=sum(items.price)` |
+| `avg()` | Calculates average value | `fn=avg(score)` or `fn=avg(reviews.rating)` |
+| `min()` | Finds minimum value | `fn=min(age)` or `fn=min(posts.created_at)` |
+| `max()` | Finds maximum value | `fn=max(price)` or `fn=max(items.quantity)` |
+
 ### Count
 
-Counts the number of related records for each parent record.
+Counts the number of records. When used with an include name, it counts related records for each parent record. When used without arguments, it counts root model records.
 
 **Syntax:**
 ```
-?fn=count(include_name)
+?fn=count()              // Root model count
+?fn=count(include_name)  // Association count
 ```
 
-**Example:**
+**Example (Association):**
 
 `GET` request:
 ```
@@ -51,53 +60,84 @@ example.com/api/v1/countries?fn=count(cities)
         "cities_count": 5432
       },
       ...
-    ],
-    "count": ...
+    ]
   },
   "error": null
 }
 ```
 
 **Important Notes:**
-- The argument inside `count()` must match the name of the include **exactly**
-- The result is added as `{include_name}_count` (e.g., `cities_count`)
-- The function must be enabled in your Filter's `functions` configuration
-- Count works on associations (includes), not on attributes
-- For associations, count uses a raw SQL subquery: `(SELECT COUNT(*) FROM table WHERE foreign_key = parent.id)`
-- For root model count, it uses Sequelize's `COUNT()` function on the first attribute
+- For associations, the argument must match the include name **exactly**.
+- Association result is added as `{include_name}_count`.
+- Root count result is added as `{plural_model}_count`.
+- Count uses a raw SQL subquery for associations to avoid row duplication.
 
-**With Filter Configuration:**
-```js
-const filter = new Filter(Country, {
-  attributes: ['id', 'name'],
-  includes: {
-    cities: new Filter(City, { ... })
-  },
-  functions: {
-    count: true  // Enable count function
-  }
-});
-```
+### Sum
 
-**Multiple Counts:**
-
-`GET` request:
-```
-example.com/api/v1/countries?fn=count(cities),count(languages)
-```
-
-This will add both `cities_count` and `languages_count` to each country.
-
-### Average (avg)
-
-Calculates the average value of a numeric attribute across related records.
+Calculates the total sum of a numeric attribute.
 
 **Syntax:**
 ```
-?fn=avg(attribute_name)
+?fn=sum(attribute)               // Root model sum
+?fn=sum(include_name.attribute)  // Association sum
 ```
 
-**Note:** The `avg` function may require additional configuration in your Filter. Check your Filter's `functions` configuration to ensure it's enabled.
+**Example (Root):**
+
+`GET` request:
+```
+example.com/api/v1/products?fn=sum(price)
+```
+
+**Output:**
+```js
+{
+  "content": {
+    "products": [
+      {
+        "id": 1,
+        "name": "Widget",
+        "price_sum": 5000
+      },
+      ...
+    ]
+  },
+  "error": null
+}
+```
+
+**Example (Association):**
+
+`GET` request:
+```
+example.com/api/v1/orders?fn=sum(items.price)
+```
+
+**Output:**
+```js
+{
+  "content": {
+    "orders": [
+      {
+        "id": 1,
+        "items_sum_price": 450
+      },
+      ...
+    ]
+  },
+  "error": null
+}
+```
+
+### Average (avg)
+
+Calculates the average value of a numeric attribute.
+
+**Syntax:**
+```
+?fn=avg(attribute)               // Root model average
+?fn=avg(include_name.attribute)  // Association average
+```
 
 **Example:**
 
@@ -117,8 +157,41 @@ example.com/api/v1/countries?fn=avg(population)
         "population_avg": 2500000
       },
       ...
-    ],
-    "count": ...
+    ]
+  },
+  "error": null
+}
+```
+
+### Minimum (min) and Maximum (max)
+
+Finds the minimum or maximum value of an attribute.
+
+**Syntax:**
+```
+?fn=min(attribute)
+?fn=max(include_name.attribute)
+```
+
+**Example:**
+
+`GET` request:
+```
+example.com/api/v1/products?fn=min(price),max(price)
+```
+
+**Output:**
+```js
+{
+  "content": {
+    "products": [
+      {
+        "id": 1,
+        "price_min": 10,
+        "price_max": 1000
+      },
+      ...
+    ]
   },
   "error": null
 }
@@ -134,111 +207,44 @@ Functions must be explicitly enabled in your Filter configuration:
 const filter = new Filter(Country, {
   attributes: ['id', 'name'],
   includes: {
-    cities: new Filter(City, {
-      attributes: ['id', 'name', 'population']
-    })
+    cities: new Filter(City, { ... })
   },
   functions: {
-    count: true,  // Enable count function
-    avg: true     // Enable avg function (if supported)
+    count: true,
+    sum: true,
+    avg: true,
+    min: true,
+    max: true
   }
 });
 ```
 
 ### Function Arguments
 
-- **For `count()`**: The argument must be the exact name of an include defined in your Filter
-- **For `avg()`**: The argument must be a valid attribute name of the related model
-
-**Example:**
-```js
-// Model associations
-Country.hasMany(City, { as: 'cities' });
-Country.hasMany(Language, { as: 'languages' });
-
-// Filter configuration
-const filter = new Filter(Country, {
-  includes: {
-    cities: new Filter(City, { ... }),
-    languages: new Filter(Language, { ... })
-  },
-  functions: {
-    count: true
-  }
-});
-````
-
-✅ Valid query
-
-`GET` request:
-```
-example.com/api/v1/countries?fn=count(cities)  // ✅ 'cities' matches include name
-```
-
-❌ Invalid query
-
-`GET` request:
-```
-example.com/api/v1/countries?fn=count(city)    // ❌ 'city' doesn't match 'cities'
-```
-
-## Combining Functions with Other Parameters
-
-Functions can be combined with other query parameters:
-
-**Example:**
-
-`GET` request:
-```
-example.com/api/v1/countries?attributes=id,name&fn=count(cities)&limit=10&order_by=name
-```
-
-This query:
-- Selects only `id` and `name` attributes
-- Counts related cities
-- Limits results to 10
-- Orders by name
+- **For `count()`**: Argument can be empty (root) or an include name.
+- **For `sum`, `avg`, `min`, `max`**: Argument must be an attribute name or `include.attribute`.
 
 ## Function Results
 
-Function results are added to each record in the response:
+Results are added to each record in the response using the following naming conventions:
 
-- **Count**: `{include_name}_count` (e.g., `cities_count`)
-- **Average**: `{attribute_name}_avg` (e.g., `population_avg`)
+- **Root aggregates**: `{attribute}_{fn}` (e.g., `price_sum`)
+- **Association count**: `{include}_count` (e.g., `cities_count`)
+- **Association aggregates**: `{include}_{fn}_{attribute}` (e.g., `items_sum_price`)
 
-The function results are separate from the main attributes and are always included when functions are used.
+## Combining with Other Parameters
 
-## Error Handling
+Functions work seamlessly with `attributes`, `limit`, `order_by`, and other NQL parameters.
 
-If a function is not enabled in the Filter, you'll receive an error in response:
-
-```js
-{
-  "content": null,
-  "error": {
-    "message": "Function 'count' is not allowed."
-  }
-}
-```
-
-If the function argument doesn't match an include name, you'll receive an error in response:
-
-```js
-{
-  "content": null,
-  "error": {
-    "message": "No include named 'city'"
-  }
-}
-```
+**Example:**
+`example.com/api/v1/countries?a=id,name&fn=count(cities)&limit=10&oby=name`
 
 ## Best Practices
 
-1. **Enable functions in Filter**: Always configure functions in your Filter before using them
-2. **Match include names exactly**: Function arguments must match include names case-sensitively
-3. **Use with attributes**: Combine functions with `attributes` to limit returned data
-4. **Consider performance**: Aggregate functions can be expensive on large datasets
-5. **Test incrementally**: Start with simple functions and add complexity gradually
+1. **Enable functions in Filter**: Aggregates are disabled by default for security.
+2. **Use dot notation for associations**: Access attributes of related models via `include.attribute`.
+3. **Combine with attributes**: Limit returned data to improve performance.
+4. **Performance**: Be aware that association aggregates use subqueries.
 
 ## Copyright
 Copyright 2021-present [Mark Khramko](https://github.com/MarkKhramko)

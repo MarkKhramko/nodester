@@ -93,7 +93,10 @@ Use parentheses for operators:
 ### Functions
 Use parentheses for function arguments:
 ```
-?fn=count(cities)
+?fn=count()            // Counts root model
+?fn=count(comments)    // Counts association
+?fn=sum(price)         // Sum of attribute
+?fn=avg(items.price)   // Average of association attribute
 ```
 
 ### Subqueries
