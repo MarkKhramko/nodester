@@ -85,10 +85,7 @@ describe('nodester Clauses', () => {
 		const mockFilter = {
 			model: mockModel,
 			attributes: ['id', 'title', 'category_id', 'brand_id', 'created_at'],
-			functions: {
-				count: true,
-				sum: true
-			},
+			functions: ['count', 'sum'],
 			clauses: ['group_by', 'order', 'order_by', 'limit', 'skip'],
 			bounds: {
 				clauses: {

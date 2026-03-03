@@ -209,13 +209,13 @@ const filter = new Filter(Country, {
   includes: {
     cities: new Filter(City, { ... })
   },
-  functions: {
-    count: true,
-    sum: true,
-    avg: true,
-    min: true,
-    max: true
-  }
+  functions: [
+    'count',
+    'sum',
+    'avg',
+    'min',
+    'max'
+  ]
 });
 ```
 

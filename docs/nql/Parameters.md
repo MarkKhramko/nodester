@@ -108,7 +108,7 @@ example.com/api/v1/countries?fn=count(cities)
 - `avg(attribute_name)` - Calculates average (if supported)
 
 **Behavior:**
-- Functions must be enabled in the Filter's `functions` configuration
+- Functions must be enabled in the Filter's `functions` array configuration
 - Function arguments must match include names or attribute names exactly
 - Results are added to the response with a suffix (e.g., `cities_count`)
 

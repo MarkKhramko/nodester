@@ -135,13 +135,7 @@ describe('nodester Aggregates', () => {
 		const mockFilter = {
 			model: mockModel,
 			attributes: ['id', 'price', 'score', 'age', 'category_id', 'brand_id'],
-			functions: {
-				count: { target: 'comments' }, // Just to satisfy ensure calls if any
-				sum: true,
-				avg: true,
-				min: true,
-				max: true
-			},
+			functions: ['count', 'sum', 'avg', 'min', 'max'],
 			clauses: ['group_by'],
 			bounds: { clauses: {} },
 			statics: { attributes: {}, clauses: {} },
@@ -149,7 +143,7 @@ describe('nodester Aggregates', () => {
 				comments: {
 					model: { options: { name: { singular: 'Comment', plural: 'Comments' } }, tableAttributes: { id: {} } },
 					attributes: ['id'],
-					functions: { count: true, sum: true },
+					functions: ['count', 'sum'],
 					clauses: [],
 					bounds: { clauses: {} },
 					statics: { attributes: {}, clauses: {} },
