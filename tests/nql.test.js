@@ -507,6 +507,32 @@ describe('nodester Query Language', () => {
 
 			expect(result).toMatchObject(expected);
 		});
+
+		test('"Like" with empty argument is a no-op', async () => {
+			// Simulates: GET /api/v3/suggestions?type=COUNTRIES&name=like()
+			// Frontend sends like() when the search field is cleared.
+			const lexer = new QueryLexer('name=like()');
+			const result = await lexer.parse();
+
+			// No where clause should be produced for `name`.
+			const tree = new ModelsTree();
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+			expect(result.where).not.toHaveProperty('name');
+		});
+
+		test('"Like" empty arg mixed with another filter keeps the other filter', async () => {
+			const lexer = new QueryLexer('id=10&name=like()');
+			const result = await lexer.parse();
+
+			const tree = new ModelsTree();
+			tree.node.addWhere({ id: ['10'] });
+			const expected = tree.root.toObject();
+
+			expect(result).toMatchObject(expected);
+			expect(result.where).not.toHaveProperty('name');
+		});
 	});
 
 	describe('operators:in', () => {
