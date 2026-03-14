@@ -4,6 +4,7 @@
 
 - [Application →](Application.md)
 - [Router →](Router.md)
+- [CRUD Operations →](CRUD.md)
 - [Filter →](Filter.md)
 - [Marker →](Marker.md)
 - [nodester Query Language (NQL) →](nql/Introduction.md)
