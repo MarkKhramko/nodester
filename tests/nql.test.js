@@ -480,7 +480,7 @@ describe('nodester Query Language', () => {
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ title: { like: ['some_text'] } });
+			tree.node.addWhere({ title: { like: ['%some_text%'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
@@ -491,7 +491,7 @@ describe('nodester Query Language', () => {
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ title: { notLike: ['some_text'] } });
+			tree.node.addWhere({ title: { notLike: ['%some_text%'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
@@ -502,7 +502,7 @@ describe('nodester Query Language', () => {
 			const result = await lexer.parse();
 
 			const tree = new ModelsTree();
-			tree.node.addWhere({ title: { notLike: ['some_text'] } });
+			tree.node.addWhere({ title: { notLike: ['%some_text%'] } });
 			const expected = tree.root.toObject();
 
 			expect(result).toMatchObject(expected);
@@ -676,7 +676,7 @@ describe('nodester Query Language', () => {
 
 			const tree = new ModelsTree();
 			tree.node.addWhere({
-				title: { like: ['book'], notLike: ['book #3', 'book #4'] }
+				title: { like: ['%book%'], notLike: ['%book #3%', '%book #4%'] }
 			});
 			const expected = tree.root.toObject();
 
@@ -690,7 +690,7 @@ describe('nodester Query Language', () => {
 			const tree = new ModelsTree();
 			tree.include('comments').use('comments');
 			tree.node.addWhere({
-				text: { like: ['hi'], notLike: ['hi!'] }
+				text: { like: ['%hi%'], notLike: ['%hi!%'] }
 			});
 			const expected = tree.root.toObject();
 
@@ -707,7 +707,7 @@ describe('nodester Query Language', () => {
 			});
 			tree.include('comments').use('comments');
 			tree.node.addWhere({
-				text: { like: ['hi'], notLike: ['hi!'] }
+				text: { like: ['%hi%'], notLike: ['%hi!%'] }
 			});
 			const expected = tree.root.toObject();
 
@@ -720,11 +720,11 @@ describe('nodester Query Language', () => {
 
 			const tree = new ModelsTree();
 			tree.node.addWhere({
-				title: { like: ['book'], notLike: ['book #3'] }
+				title: { like: ['%book%'], notLike: ['%book #3%'] }
 			});
 			tree.include('comments').use('comments');
 			tree.node.addWhere({
-				text: { like: ['hi'], notLike: ['hi!'] }
+				text: { like: ['%hi%'], notLike: ['%hi!%'] }
 			});
 			const expected = tree.root.toObject();
 
