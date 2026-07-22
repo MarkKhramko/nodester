@@ -100,5 +100,22 @@ describe('nodester Date Parsing', () => {
 				parseValue(raw, 'created_at', mockModel);
 			}).toThrow("nodester: Invalid date value 'not-a-date' for attribute 'created_at'");
 		});
+
+		it('should throw for a time-only value with no date part', () => {
+			const raw = { lte: [" 23:59:59"] };
+
+			expect(() => {
+				parseValue(raw, 'created_at', mockModel);
+			}).toThrow(/Invalid date value/);
+		});
+
+		it('should throw for a + prefixed time-only value (URL-encoded space + time)', () => {
+			// Same root cause, but with literal + (as it arrives when + is not decoded by decodeURI).
+			const raw = { lte: ["+23:59:59"] };
+
+			expect(() => {
+				parseValue(raw, 'created_at', mockModel);
+			}).toThrow(/Invalid date value/);
+		});
 	});
 });
