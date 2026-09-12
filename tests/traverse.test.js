@@ -20,6 +20,7 @@ const {
 } = require('@jest/globals');
 
 const traverse = require('../lib/query/traverse');
+const { outputNameForModel } = require('../lib/utils/models');
 
 
 // ─── Mock models ────────────────────────────────────────────────────────────
@@ -122,6 +123,38 @@ const OrderMock = {
 		},
 	},
 	sequelize: mockSequelize,
+};
+
+
+/**
+ * Multi-word (PascalCase) model whose plural "InvoiceParses" underscores to
+ * "invoice_parses". Used to prove the root COUNT alias tracks the output
+ * collection key instead of the smashed `.toLowerCase()` form.
+ */
+const InvoiceParseMock = {
+	options: {
+		name: { singular: 'InvoiceParse', plural: 'InvoiceParses' },
+		nodester: { output: 'underscored' },
+	},
+	tableAttributes: {
+		id: {
+			type: { key: 'INTEGER' }
+		},
+		status: {
+			type: { key: 'STRING' }
+		},
+	},
+	associations: {},
+	sequelize: mockSequelize,
+};
+
+// Same model, but emitting camelCased output collection keys.
+const InvoiceParseCamelMock = {
+	...InvoiceParseMock,
+	options: {
+		name: { singular: 'InvoiceParse', plural: 'InvoiceParses' },
+		nodester: { output: 'camelcased' },
+	},
 };
 
 
@@ -343,6 +376,83 @@ describe('traverse', () => {
 				)
 			).toThrow(/not allowed/);
 		});
+	});
+
+
+	describe('functions — root COUNT alias', () => {
+
+		// Build a minimal filter that allows a root count() on `model`.
+		function makeRootCountFilter(model) {
+			return {
+				model,
+				attributes: Object.keys(model.tableAttributes),
+				functions: ['count'],
+				clauses: ['group_by'],
+				bounds: { clauses: {} },
+				statics: { attributes: {}, clauses: {} },
+				includes: {},
+			};
+		}
+
+		// Extract the [literal|fn, alias] pair produced for the root COUNT.
+		function rootCountAttribute(result) {
+			return result.attributes.find(
+				(attr) => Array.isArray(attr) && attr[0] && attr[0].fn === 'COUNT'
+			);
+		}
+
+		it('derives a snake_cased alias for a multi-word model (invoice_parses_count)', () => {
+			const result = traverse(
+				{ functions: [{ fn: 'count', args: [''] }], attributes: [], where: {}, includes: [] },
+				makeRootCountFilter(InvoiceParseMock)
+			);
+
+			const countAttr = rootCountAttribute(result);
+			expect(countAttr).toBeDefined();
+			// Before the fix this was the smashed "invoiceparses_count".
+			expect(countAttr[1]).toBe('invoice_parses_count');
+		});
+
+		it('keeps the single-word alias unchanged (products_count)', () => {
+			const result = traverse(
+				{ functions: [{ fn: 'count', args: [''] }], attributes: [], where: {}, includes: [] },
+				makeRootCountFilter(ProductMock)
+			);
+
+			const countAttr = rootCountAttribute(result);
+			expect(countAttr[1]).toBe('products_count');
+		});
+
+		it('uses the camelCase alias under nodester.output: "camelcased"', () => {
+			const result = traverse(
+				{ functions: [{ fn: 'count', args: [''] }], attributes: [], where: {}, includes: [] },
+				makeRootCountFilter(InvoiceParseCamelMock)
+			);
+
+			const countAttr = rootCountAttribute(result);
+			expect(countAttr[1]).toBe('invoiceParses_count');
+		});
+
+		// The invariant: the count alias is ALWAYS `${outputName.plural}_count`,
+		// where outputName is derived exactly as the facade derives the response
+		// collection key — so the two can never diverge again.
+		it.each([
+			['multi-word / underscored', InvoiceParseMock],
+			['single-word / underscored', ProductMock],
+			['multi-word / camelcased', InvoiceParseCamelMock],
+		])(
+			'count alias === `${outputName.plural}_count` (%s)',
+			(_label, model) => {
+				const result = traverse(
+					{ functions: [{ fn: 'count', args: [''] }], attributes: [], where: {}, includes: [] },
+					makeRootCountFilter(model)
+				);
+
+				const countAttr = rootCountAttribute(result);
+				const outputName = outputNameForModel(model);
+				expect(countAttr[1]).toBe(`${ outputName.plural }_count`);
+			}
+		);
 	});
 
 

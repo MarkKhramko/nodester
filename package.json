@@ -1,6 +1,6 @@
 {
   "name": "nodester",
-  "version": "0.7.21",
+  "version": "0.8.0",
   "description": "A versatile REST framework for Node.js",
   "directories": {
     "docs": "docs",
@@ -70,6 +70,7 @@
     "./tools/nql": "./lib/tools/nql.tool.js",
 
     "./utils/dates": "./lib/utils/dates.js",
+    "./utils/models": "./lib/utils/models.js",
     "./utils/sql": "./lib/utils/sql.util.js",
     "./utils/strings": "./lib/utils/strings.util.js",
     "./utils/sanitizations": "./lib/utils/sanitizations.util.js",

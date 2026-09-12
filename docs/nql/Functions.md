@@ -69,7 +69,10 @@ example.com/api/v1/countries?fn=count(cities)
 **Important Notes:**
 - For associations, the argument must match the include name **exactly**.
 - Association result is added as `{include_name}_count`.
-- Root count result is added as `{plural_model}_count`.
+- Root count result is added as `{output_plural}_count`, where `{output_plural}` is the model's **output collection name** — the same key the model's records are returned under. By default this is the snake_cased plural (`nodester.output: 'underscored'`); with `nodester.output: 'camelcased'` it is the camelCased plural. So the count key always mirrors the collection key:
+  - `Product` → collection `products` → `products_count`
+  - `InvoiceParse` → collection `invoice_parses` → `invoice_parses_count`
+  - `InvoiceParse` with `output: 'camelcased'` → collection `invoiceParses` → `invoiceParses_count`
 - Count uses a raw SQL subquery for associations to avoid row duplication.
 
 ### Sum
@@ -229,6 +232,7 @@ const filter = new Filter(Country, {
 Results are added to each record in the response using the following naming conventions:
 
 - **Root aggregates**: `{attribute}_{fn}` (e.g., `price_sum`)
+- **Root count**: `{output_plural}_count`, where `{output_plural}` is the model's output collection name — snake_cased by default, camelCased under `nodester.output: 'camelcased'` (e.g., `products_count`, `invoice_parses_count`, or `invoiceParses_count`)
 - **Association count**: `{include}_count` (e.g., `cities_count`)
 - **Association aggregates**: `{include}_{fn}_{attribute}` (e.g., `items_sum_price`)
 
