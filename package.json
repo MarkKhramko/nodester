@@ -1,6 +1,6 @@
 {
   "name": "nodester",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "A versatile REST framework for Node.js",
   "directories": {
     "docs": "docs",
@@ -79,22 +79,12 @@
     "./validators/arguments": "./lib/validators/arguments.js"
   },
   "dependencies": {
-    "@js-temporal/polyfill": "^0.4.3",
     "body-parser": "^1.20.2",
-    "cookie": "^1.0.0",
-    "cookie-signature": "^1.2.0",
-    "debug": "^4.3.4",
-    "etag": "^1.8.1",
-    "finalhandler": "^1.2.0",
     "formidable": "^3.5.1",
-    "fresh": "^0.5.2",
-    "http-errors": "^2.0.0",
     "inflection": "^2.0.1",
     "mime": "^3.0.0",
     "mysql2": "^3.14.4",
     "pg": "^8.16.3",
-    "pg-hstore": "^2.3.4",
-    "qs": "^6.11.0",
     "sequelize": "^6.6.5"
   },
   "devDependencies": {
