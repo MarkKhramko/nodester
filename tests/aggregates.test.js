@@ -112,7 +112,7 @@ describe('nodester Aggregates', () => {
 			associations: {
 				comments: {
 					as: 'comments',
-					target: { tableName: 'comments' },
+					target: { tableName: 'comments', tableAttributes: { id: {}, votes: {} } },
 					foreignKey: 'post_id',
 					sourceKey: 'id'
 				}
@@ -141,8 +141,8 @@ describe('nodester Aggregates', () => {
 			statics: { attributes: {}, clauses: {} },
 			includes: {
 				comments: {
-					model: { options: { name: { singular: 'Comment', plural: 'Comments' } }, tableAttributes: { id: {} } },
-					attributes: ['id'],
+					model: { options: { name: { singular: 'Comment', plural: 'Comments' } }, tableAttributes: { id: {}, votes: {} } },
+					attributes: ['id', 'votes'],
 					functions: ['count', 'sum'],
 					clauses: [],
 					bounds: { clauses: {} },

@@ -1,6 +1,6 @@
 {
   "name": "nodester",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "A versatile REST framework for Node.js",
   "directories": {
     "docs": "docs",
@@ -60,6 +60,8 @@
 
     "./ql/sequelize": "./lib/middlewares/ql/sequelize/index.js",
     "./query/traverse": "./lib/query/traverse/index.js",
+    "./query/plan": "./lib/query/plan/index.js",
+    "./query/cursor": "./lib/query/cursor.js",
 
     "./route": "./lib/router/route.js",
     "./router": "./lib/router/index.js",

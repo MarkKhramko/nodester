@@ -84,16 +84,41 @@ describe('nodester Clauses', () => {
 
 		const mockFilter = {
 			model: mockModel,
-			attributes: ['id', 'title', 'category_id', 'brand_id', 'created_at'],
-			functions: ['count', 'sum'],
-			clauses: ['group_by', 'order', 'order_by', 'limit', 'skip'],
+			attributes: [
+				'id',
+				'title',
+				'price',
+				'category_id',
+				'brand_id',
+				'created_at'
+			],
+			functions: [
+				'count',
+				'sum'
+			],
+			clauses: [
+				'group_by',
+				'order',
+				'order_by',
+				'limit',
+				'skip'
+			],
 			bounds: {
 				clauses: {
-					limit: { min: 1, max: 100 },
-					skip: { min: 0, max: 1000 }
+					limit: {
+						min: 1,
+						max: 100
+					},
+					skip: {
+						min: 0,
+						max: 1000
+					}
 				}
 			},
-			statics: { attributes: {}, clauses: {} },
+			statics: {
+				attributes: {},
+				clauses: {}
+			},
 			includes: {}
 		};
 

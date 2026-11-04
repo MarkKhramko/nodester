@@ -44,6 +44,8 @@ NQL uses special characters to express different query operations:
 - `order_by` - Column to order by
 - `order` - Order direction (asc/desc)
 - `group_by` - Group results by column
+- `after` - Opaque cursor for the next cursor page
+- `before` - Opaque cursor for the previous cursor page
 
 ### Short Names (Aliases)
 
@@ -56,6 +58,14 @@ For convenience, NQL provides short aliases:
 - `s` → `skip`
 - `o` → `order`
 - `oby` → `order_by`
+
+Cursor values are intentionally opaque. Send them back as returned by
+`pageInfo.nextCursor` or `pageInfo.previousCursor`; do not decode or build
+them in client code. See [cursor pagination and query plans →](Pagination.md).
+
+Cursor-enabled filters may configure multiple order fields. The request can
+repeat that order with comma-separated values, for example:
+`order_by=published_at,id&order=desc,desc`.
 
 **Example:**
 ```

@@ -13,6 +13,8 @@
   - [Subqueries →](nql/Subqueries.md)
   - [Operators →](nql/Operators.md)
   - [Functions →](nql/Functions.md)
+  - [Pagination and query plans →](nql/Pagination.md)
+  - [Query-plan architecture →](nql/QueryPlan.md)
 
 
 ## Copyright
