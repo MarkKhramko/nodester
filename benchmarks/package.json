@@ -1,0 +1,22 @@
+{
+  "name": "nodester-vs-express-benchmark",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Independent autocannon stress test comparing Nodester and Express",
+  "scripts": {
+    "benchmark": "node run.js",
+    "benchmark:quick": "BENCH_DURATION=2 BENCH_WARMUP=1 BENCH_CONNECTIONS=50 node run.js"
+  },
+  "dependencies": {
+    "autocannon": "^8.0.0",
+    "body-parser": "^1.20.2",
+    "cli-table3": "^0.6.5",
+    "express": "^4.21.2",
+    "nodester": "file:..",
+    "sequelize": "^6.37.8",
+    "sqlite3": "^5.1.7"
+  },
+  "engines": {
+    "node": ">= 12.17.0"
+  }
+}
