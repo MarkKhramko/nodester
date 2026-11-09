@@ -174,11 +174,11 @@ describe('NQL cursor pagination', () => {
 
 		const page = await plan.execute({ findAll: async () => postRows() });
 		expect(page.items.map(row => row.id)).toEqual([9, 8, 7]);
-		expect(page.pageInfo).toMatchObject({
-			hasNextPage: true,
-			hasPreviousPage: false,
-			nextCursor: expect.any(String),
-			previousCursor: null,
+		expect(page.page_info).toMatchObject({
+			has_next_page: true,
+			has_previous_page: false,
+			next_cursor: expect.any(String),
+			previous_cursor: null,
 		});
 	});
 
@@ -187,7 +187,7 @@ describe('NQL cursor pagination', () => {
 		const filter = cursorFilter(codec);
 		const first = createPlan(await ast('limit=2'), filter);
 		const page = await first.execute({ findAll: async () => postRows() });
-		const next = createPlan(await ast(`limit=2&after=${page.pageInfo.nextCursor}`), filter);
+		const next = createPlan(await ast(`limit=2&after=${page.page_info.next_cursor}`), filter);
 
 		const cursorPredicate = next.query.where[Op.or];
 		expect(cursorPredicate).toHaveLength(2);
@@ -205,7 +205,7 @@ describe('NQL cursor pagination', () => {
 		const filter = cursorFilter(codec);
 		const first = createPlan(await ast('limit=2'), filter);
 		const page = await first.execute({ findAll: async () => postRows() });
-		const previous = createPlan(await ast(`limit=2&before=${page.pageInfo.nextCursor}`), filter);
+		const previous = createPlan(await ast(`limit=2&before=${page.page_info.next_cursor}`), filter);
 
 		expect(previous.query.order).toEqual([
 			['published_at', 'ASC'],
@@ -216,8 +216,8 @@ describe('NQL cursor pagination', () => {
 			findAll: async () => [postRows()[0]],
 		});
 		expect(result.items.map(row => row.id)).toEqual([9]);
-		expect(result.pageInfo.hasNextPage).toBe(true);
-		expect(result.pageInfo.hasPreviousPage).toBe(false);
+		expect(result.page_info.has_next_page).toBe(true);
+		expect(result.page_info.has_previous_page).toBe(false);
 	});
 
 	it('level 6: supports mixed-direction composite ordering', async () => {
@@ -240,7 +240,7 @@ describe('NQL cursor pagination', () => {
 			filter
 		);
 		const page = await first.execute({ findAll: async () => postRows() });
-		const next = createPlan(await ast(`after=${page.pageInfo.nextCursor}`), filter);
+		const next = createPlan(await ast(`after=${page.page_info.next_cursor}`), filter);
 
 		expect(next.query.order).toEqual([
 			['published_at', 'DESC'],
@@ -345,9 +345,9 @@ describe('NQL cursor pagination', () => {
 		const filter = cursorFilter(codec);
 		const first = createPlan(await ast('limit=1'), filter);
 		const page = await first.execute({ findAll: async () => postRows() });
-		const skipAst = await ast(`after=${page.pageInfo.nextCursor}&skip=1`);
-		const randomAst = await ast('order=rand');
-		const overrideAst = await ast('order_by=title&order=asc');
+		const skipAst = await ast(`after=${page.page_info.next_cursor}&skip=1`);
+		const randomAst = await ast('limit=1&order=rand');
+		const overrideAst = await ast('limit=1&order_by=title&order=asc');
 		const malformedAst = await ast('after=malformed');
 
 		expect(() => createPlan(skipAst, filter))
@@ -444,11 +444,11 @@ describe('NQL cursor pagination with Sequelize execution', () => {
 		expect(firstPage.items[0].comments.map(comment => comment.body)).toEqual(['third-a', 'third-b']);
 
 		const secondPlan = createPlan(
-			await ast(`limit=2&after=${firstPage.pageInfo.nextCursor}&includes=comments(order_by=id&order=asc)`),
+			await ast(`limit=2&after=${firstPage.page_info.next_cursor}&includes=comments(order_by=id&order=asc)`),
 			postFilter
 		);
 		const secondPage = await secondPlan.execute();
 		expect(secondPage.items.map(post => post.id)).toEqual([first.id]);
-		expect(secondPage.pageInfo.hasNextPage).toBe(false);
+		expect(secondPage.page_info.has_next_page).toBe(false);
 	});
 });

@@ -9,6 +9,17 @@ Cursor pagination is configured by the server in the `Filter`. A client can
 request a page size and pass an opaque cursor, but cannot choose the cursor
 order or remove server constraints.
 
+The request shape selects the pagination mode:
+
+- `limit` without a positive `skip` starts a cursor page when the Filter
+  enables cursor pagination.
+- `after` or `before` continues cursor pagination.
+- A positive `skip` selects the existing offset path, even if the Filter also
+  contains cursor configuration.
+- `after`/`before` combined with a positive `skip` is rejected.
+- `count()` cannot be combined with cursor pagination; aggregate requests must
+  use the legacy executor.
+
 ## A posts/comments feed
 
 The following example describes a generic `Post` feed with a nested
@@ -90,11 +101,11 @@ The response contains page metadata:
   "items": [
     { "id": 42, "title": "...", "comments": [] }
   ],
-  "pageInfo": {
-    "hasNextPage": true,
-    "hasPreviousPage": false,
-    "nextCursor": "eyJ2IjoxLCJtb2RlbCI6...",
-    "previousCursor": null
+  "page_info": {
+    "has_next_page": true,
+    "has_previous_page": false,
+    "next_cursor": "eyJ2IjoxLCJtb2RlbCI6...",
+    "previous_cursor": null
   }
 }
 ```
@@ -246,7 +257,7 @@ To migrate a changing feed:
 1. Add a unique, deterministic `pagination.order` and an application codec.
 2. Move visibility/user-scope rules into `constraints`.
 3. Create the first page without `after`.
-4. Store and forward `pageInfo.nextCursor`.
+4. Store and forward `page_info.next_cursor`.
 5. Stop sending `skip` for that route.
 
 Unknown fields, clauses, include names, order fields, and operators are

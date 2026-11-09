@@ -105,7 +105,7 @@ describe('cursor pagination security', () => {
 	it('rejects tampered IDs before executing a query', async () => {
 		const codec = createHmacCursorCodec('pagination-secret');
 		const { filter, page } = await firstPage(codec);
-		const cursor = tamperPayload(page.pageInfo.nextCursor, payload => {
+		const cursor = tamperPayload(page.page_info.next_cursor, payload => {
 			payload.values[1].value = 999999;
 		});
 		const query = await ast(`after=${cursor}`);
@@ -119,7 +119,7 @@ describe('cursor pagination security', () => {
 	it('rejects tampered timestamps before executing a query', async () => {
 		const codec = createHmacCursorCodec('pagination-secret');
 		const { filter, page } = await firstPage(codec);
-		const cursor = tamperPayload(page.pageInfo.nextCursor, payload => {
+		const cursor = tamperPayload(page.page_info.next_cursor, payload => {
 			payload.values[0].value = '1900-01-01T00:00:00.000Z';
 		});
 		const query = await ast(`after=${cursor}`);
@@ -132,7 +132,7 @@ describe('cursor pagination security', () => {
 		const trusted = createHmacCursorCodec('pagination-secret');
 		const attacker = createHmacCursorCodec('attacker-secret');
 		const { filter, page } = await firstPage(trusted);
-		const forged = decodeBody(page.pageInfo.nextCursor);
+		const forged = decodeBody(page.page_info.next_cursor);
 		forged.values[1].value = 1;
 		const cursor = attacker.encode(forged);
 		const query = await ast(`after=${cursor}`);
@@ -144,7 +144,7 @@ describe('cursor pagination security', () => {
 	it('binds a cursor to the user visibility scope', async () => {
 		const codec = createHmacCursorCodec('pagination-secret');
 		const { filter, page } = await firstPage(codec, 7);
-		const query = await ast(`after=${page.pageInfo.nextCursor}`);
+		const query = await ast(`after=${page.page_info.next_cursor}`);
 
 		expect(() => createPlan(
 			query,
@@ -158,7 +158,7 @@ describe('cursor pagination security', () => {
 		const { filter, page } = await firstPage(codec);
 
 		for (const offset of ['skip=1', 'skip=999999']) {
-			const query = await ast(`after=${page.pageInfo.nextCursor}&${offset}`);
+			const query = await ast(`after=${page.page_info.next_cursor}&${offset}`);
 			expect(() => createPlan(
 				query,
 				filter,
@@ -179,14 +179,14 @@ describe('cursor pagination security', () => {
 		});
 
 		expect(page.items).toHaveLength(2);
-		expect(page.pageInfo.hasNextPage).toBe(true);
+		expect(page.page_info.has_next_page).toBe(true);
 	});
 
 	it('rejects a cursor whose ordering was changed by the client', async () => {
 		const codec = createHmacCursorCodec('pagination-secret');
 		const { page } = await firstPage(codec);
 		const filter = filterFor(codec);
-		const query = await ast(`after=${page.pageInfo.nextCursor}&order_by=id&order=asc`);
+		const query = await ast(`after=${page.page_info.next_cursor}&order_by=id&order=asc`);
 
 		expect(() => createPlan(
 			query,

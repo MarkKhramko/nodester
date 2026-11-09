@@ -15,7 +15,7 @@ cursor predicate + root pagination
    ↓
 Sequelize options
    ↓
-execute → items + pageInfo
+execute → items + page_info
 ```
 
 The AST remains a plain model tree so existing `traverse(ast, filter)` users
@@ -26,12 +26,12 @@ and page metadata. It is available as:
 ```js
 const createPlan = require('nodester/query/plan');
 const plan = createPlan(req.nquery, filter, { context });
-const { items, pageInfo } = await plan.execute();
+const { items, page_info } = await plan.execute();
 ```
 
 `traverse()` remains useful when an application needs raw Sequelize options
 or offset pagination. Cursor routes should execute the returned plan so the
-framework can fetch one extra root row, calculate `hasNextPage`, and encode
+framework can fetch one extra root row, calculate `has_next_page`, and encode
 the boundary values.
 
 The planner validates names before compiling them: model attributes, Filter

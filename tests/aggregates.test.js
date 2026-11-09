@@ -112,7 +112,16 @@ describe('nodester Aggregates', () => {
 			associations: {
 				comments: {
 					as: 'comments',
-					target: { tableName: 'comments', tableAttributes: { id: {}, votes: {} } },
+					target: {
+						options: { name: { singular: 'Comment', plural: 'Comments' } },
+						tableName: 'comments',
+						tableAttributes: { id: {}, votes: {} },
+						sequelize: {
+							fn: (fn, col) => ({ fn, col }),
+							col: (col) => ({ col }),
+							literal: (sql) => ({ literal: sql }),
+						},
+					},
 					foreignKey: 'post_id',
 					sourceKey: 'id'
 				}
@@ -174,6 +183,26 @@ describe('nodester Aggregates', () => {
 				{ literal: '(SELECT COUNT(*) FROM comments where comments.post_id=Post.id)' },
 				'comments_count'
 			]);
+		});
+
+		it('keeps filtering-only includes column-free for grouped aggregates', () => {
+			const queryNode = {
+				functions: [{ fn: 'count', args: [''] }],
+				group_by: 'category_id',
+				includes: [
+					{
+						model: 'comments',
+						attributes: [],
+						where: { id: ['visible'] },
+						required: true,
+						includes: []
+					}
+				]
+			};
+			const result = traverse(queryNode, mockFilter, mockModel);
+
+			expect(result.include[0].required).toBe(true);
+			expect(result.include[0].attributes).toEqual([]);
 		});
 
 		it('maps association sum(comments.votes)', () => {

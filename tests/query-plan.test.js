@@ -97,6 +97,57 @@ async function ast(query) {
 }
 
 describe('NQL query plan: posts and comments', () => {
+	it('uses the legacy executor for aggregate queries without cursor pagination', async () => {
+		const codec = createHmacCursorCodec('aggregate-secret');
+		const filter = filterFor(codec, {
+			functions: ['count'],
+			clauses: ['limit', 'group_by'],
+		});
+		const plan = createPlan(
+			await ast('fn=count()&group_by=status&includes=comments'),
+			filter
+		);
+
+		expect(plan.pagination).toBeNull();
+		expect(plan.query.order).toBeUndefined();
+		expect(plan.query.include[0].attributes).toEqual([]);
+	});
+
+	it('rejects count when cursor pagination is requested', async () => {
+		const codec = createHmacCursorCodec('count-cursor-secret');
+		const filter = filterFor(codec, {
+			functions: ['count'],
+			clauses: ['limit'],
+		});
+		const query = await ast('fn=count()&limit=2');
+
+		expect(() => createPlan(query, filter)).toThrow(/count.*cursor/i);
+	});
+
+	it('does not enable cursor pagination when NQL has no pagination token', async () => {
+		const codec = createHmacCursorCodec('no-pagination-secret');
+		const filter = filterFor(codec);
+		const plan = createPlan(await ast('status=active'), filter);
+
+		expect(plan.pagination).toBeNull();
+		expect(plan.query.order).toBeUndefined();
+	});
+
+	it('keeps limit-plus-skip requests on the legacy offset path', async () => {
+		const codec = createHmacCursorCodec('offset-secret');
+		const filter = filterFor(codec);
+		const plan = createPlan(
+			await ast('limit=2&skip=1&order_by=title&order=asc'),
+			filter
+		);
+
+		expect(plan.pagination).toBeNull();
+		expect(plan.query.limit).toBe(2);
+		expect(plan.query.offset).toBe(1);
+		expect(plan.query.order).toEqual([['title', 'asc']]);
+		expect((await plan.execute({ findAll: async () => [] })).page_info).toBeNull();
+	});
+
 	it('builds a bounded multi-column cursor plan and returns page metadata', async () => {
 		const codec = createHmacCursorCodec('test-only-secret');
 		const filter = filterFor(codec);
@@ -122,10 +173,10 @@ describe('NQL query plan: posts and comments', () => {
 		];
 		const page = await first.execute({ findAll: async () => rows });
 		expect(page.items).toHaveLength(2);
-		expect(page.pageInfo.hasNextPage).toBe(true);
-		expect(page.pageInfo.nextCursor).toEqual(expect.any(String));
+		expect(page.page_info.has_next_page).toBe(true);
+		expect(page.page_info.next_cursor).toEqual(expect.any(String));
 
-		const decoded = codec.decode(page.pageInfo.nextCursor);
+		const decoded = codec.decode(page.page_info.next_cursor);
 		expect(decoded.values[0]).toEqual({ type: 'date', value: '2025-12-03T00:00:00.000Z' });
 		expect(decoded.values[1]).toEqual({ type: 'number', value: 8 });
 	});
@@ -143,7 +194,7 @@ describe('NQL query plan: posts and comments', () => {
 			],
 		});
 
-		const secondAst = await ast(`limit=2&after=${page.pageInfo.nextCursor}`);
+		const secondAst = await ast(`limit=2&after=${page.page_info.next_cursor}`);
 		const second = createPlan(secondAst, filter, { context: { snapshotTime: '2026-01-01' } });
 		const predicate = second.query.where[Op.and].find((entry) => entry[Op.or]);
 		expect(predicate[Op.or]).toHaveLength(2);
@@ -303,7 +354,7 @@ describe('NQL query plan: posts and comments', () => {
 				{ id: 2, published_at: new Date('2025-12-01') },
 			],
 		});
-		const next = await ast(`after=${page.pageInfo.nextCursor}`);
+		const next = await ast(`after=${page.page_info.next_cursor}`);
 		expect(() => createPlan(next, filter, {
 			context: { snapshotTime: '2026-01-02' },
 		})).toThrow(/scope/);
@@ -329,7 +380,7 @@ describe('NQL query plan: posts and comments', () => {
 				{ id: 1, published_at: new Date('2025-12-02') },
 			],
 		});
-		const withSkip = await ast(`limit=2&skip=1&after=${page.pageInfo.nextCursor}`);
+		const withSkip = await ast(`limit=2&skip=1&after=${page.page_info.next_cursor}`);
 		expect(() => createPlan(withSkip, filter, { context: { snapshotTime: '2026-01-01' } }))
 			.toThrow(/skip.*cursor/i);
 	});

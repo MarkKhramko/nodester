@@ -60,7 +60,7 @@ For convenience, NQL provides short aliases:
 - `oby` → `order_by`
 
 Cursor values are intentionally opaque. Send them back as returned by
-`pageInfo.nextCursor` or `pageInfo.previousCursor`; do not decode or build
+`page_info.next_cursor` or `page_info.previous_cursor`; do not decode or build
 them in client code. See [cursor pagination and query plans →](Pagination.md).
 
 Cursor-enabled filters may configure multiple order fields. The request can

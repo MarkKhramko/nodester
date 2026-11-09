@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented in this file.
 
+## 0.8.31
+
+### Breaking
+
+- Query-plan page metadata uses `page_info`, `has_next_page`,
+  `has_previous_page`, `next_cursor`, and `previous_cursor`.
+- Cursor and offset pagination are mutually exclusive. Positive `skip` keeps
+  a request on the legacy offset path; cursor boundaries combined with
+  positive `skip` are rejected.
+- Cursor pagination requests containing `count()` are rejected. Aggregate
+  queries must use the legacy executor.
+
 ## 0.8.0
 
 ### Breaking
