@@ -148,6 +148,19 @@ describe('NQL query plan: posts and comments', () => {
 		expect((await plan.execute({ findAll: async () => [] })).page_info).toBeNull();
 	});
 
+	it('keeps explicitly ordered first pages on the legacy offset path', async () => {
+		const codec = createHmacCursorCodec('explicit-offset-secret');
+		const filter = filterFor(codec);
+		const plan = createPlan(
+			await ast('limit=20&skip=0&order_by=title&order=desc'),
+			filter
+		);
+
+		expect(plan.pagination).toBeNull();
+		expect(plan.query.limit).toBe(20);
+		expect(plan.query.order).toEqual([['title', 'desc']]);
+	});
+
 	it('builds a bounded multi-column cursor plan and returns page metadata', async () => {
 		const codec = createHmacCursorCodec('test-only-secret');
 		const filter = filterFor(codec);
