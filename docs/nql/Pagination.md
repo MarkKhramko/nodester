@@ -2,7 +2,9 @@
 
 NQL has two pagination styles:
 
-- `limit` + `skip` is the existing offset style and remains available.
+- An explicit `skip` clause selects the existing offset style and remains
+  available. `order` and `order_by` remain valid cursor-ordering inputs and are
+  validated against the server cursor order.
 - cursor pagination is the stable style for feeds and changing data sets.
 
 Cursor pagination is configured by the server in the `Filter`. A client can
