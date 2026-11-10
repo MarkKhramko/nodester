@@ -29,6 +29,8 @@
     "./database/migration": "./lib/database/migration.js",
     "./database/utils": "./lib/database/utils.js",
 
+    "./events": "./lib/events/index.js",
+
     "./enum": "./lib/structures/Enum.js",
 
     "./errors": "./lib/errors/index.js",

@@ -4,6 +4,7 @@
 
 - [Application →](Application.md)
 - [Router →](Router.md)
+- [EventBus →](EventBus.md)
 - [CRUD Operations →](CRUD.md)
 - [Filter →](Filter.md)
 - [Marker →](Marker.md)
